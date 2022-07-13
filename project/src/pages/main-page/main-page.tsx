@@ -97,7 +97,7 @@ function MainPage({availablePlacesAmount}:MainPageProps): JSX.Element {
               </form>
               <div className="cities__places-list places__list tabs__content">
                 {
-                  Array.from(Array(availablePlacesAmount), () => <Card />)
+                  Array.from( {length: availablePlacesAmount}, (_, itemIndex) => <Card key={itemIndex} />)
                 }
               </div>
             </section>
