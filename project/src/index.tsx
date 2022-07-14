@@ -6,8 +6,10 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
+const AVAILABLE_PLACES_AMOUNT = 6;
+
 root.render(
   <React.StrictMode>
-    <App />
+    <App availablePlacesAmount={AVAILABLE_PLACES_AMOUNT}/>
   </React.StrictMode>,
 );

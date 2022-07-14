@@ -1,5 +1,13 @@
-function App(): JSX.Element {
-  return <p>Hello, world!</p>;
+import MainPage from '../../pages/main-page/main-page';
+
+type AppProps = {
+  availablePlacesAmount: number;
+};
+
+function App({availablePlacesAmount}:AppProps): JSX.Element {
+  return (
+    <MainPage availablePlacesAmount={availablePlacesAmount} />
+  );
 }
 
 export default App;
