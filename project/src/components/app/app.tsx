@@ -5,7 +5,7 @@ import LoginPage from '../../pages/login-page/login-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PropertyPage from '../../pages/property-page/property-page';
-import {AppRoute, AuthorizationStatus } from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
 
 type AppProps = {
   availablePlacesAmount: number;
@@ -24,10 +24,6 @@ function App({availablePlacesAmount}:AppProps): JSX.Element {
           element={<LoginPage />}
         />
         <Route
-          path={AppRoute.Favorites}
-          element={<FavoritesPage />}
-        />
-        <Route
           path={AppRoute.Room}
           element={<PropertyPage />}
         />
@@ -39,12 +35,13 @@ function App({availablePlacesAmount}:AppProps): JSX.Element {
             </PrivateRoute>
           }
         />
-        <Route path="*" element={<NotFoundPage />}/>
+        <Route
+          path="*"
+          element={<NotFoundPage />}
+        />
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
-
-// Room /offer/:id
