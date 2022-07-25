@@ -5,13 +5,15 @@ import { setRatingStarsPercent } from '../../utils';
 type CardProps = {
   offer: Offer;
   cardClassName: string;
+  onMouseOver?: () => void;
+  onMouseOut?: () => void;
 }
 
-export default function Card ({offer, cardClassName}: CardProps): JSX.Element {
+export default function Card ({offer, cardClassName, onMouseOver, onMouseOut,}: CardProps): JSX.Element {
   const setFavoriteButton = (isFavorite: boolean) => isFavorite ? 'place-card__bookmark-button--active' : '';
 
   return (
-    <article className={`${cardClassName}__card place-card`}>
+    <article onMouseOver={onMouseOver} onMouseOut={onMouseOut} className={`${cardClassName}__card place-card`}>
       <div className={`${cardClassName}__image-wrapper place-card__image-wrapper`}>
         <Link to={`offer/${offer.id}`}>
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place" />
