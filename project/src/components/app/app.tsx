@@ -6,18 +6,21 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PropertyPage from '../../pages/property-page/property-page';
 import {AppRoute, AuthorizationStatus} from '../../const';
+import {Offers} from '../../types/offer';
+import {Reviews} from '../../types/review';
 
 type AppProps = {
-  availablePlacesAmount: number;
+  offers: Offers,
+  reviews: Reviews
 };
 
-function App({availablePlacesAmount}:AppProps): JSX.Element {
+function App({offers, reviews}:AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainPage availablePlacesAmount={availablePlacesAmount} />}
+          element={<MainPage offers={offers} />}
         />
         <Route
           path={AppRoute.Login}
@@ -25,7 +28,7 @@ function App({availablePlacesAmount}:AppProps): JSX.Element {
         />
         <Route
           path={AppRoute.Room}
-          element={<PropertyPage />}
+          element={<PropertyPage offers={offers} reviews={reviews}/>}
         />
         <Route
           path={AppRoute.Favorites}

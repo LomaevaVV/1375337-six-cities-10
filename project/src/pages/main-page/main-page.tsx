@@ -1,14 +1,15 @@
 import Header from '../../components/header/header';
-import Card from '../../components/card/card';
-import {AppRoute} from '../../const';
+import CardsList from '../../components/cards-list/cards-list';
+import {AppRoute, CardClassName} from '../../const';
 import {Link} from 'react-router-dom';
+import {Offers} from '../../types/offer';
 
 type MainPageProps = {
-  availablePlacesAmount: number;
+  offers: Offers;
 };
 
 
-export default function MainPage({availablePlacesAmount}: MainPageProps): JSX.Element {
+export default function MainPage({offers}: MainPageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -55,7 +56,7 @@ export default function MainPage({availablePlacesAmount}: MainPageProps): JSX.El
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{availablePlacesAmount} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -71,11 +72,7 @@ export default function MainPage({availablePlacesAmount}: MainPageProps): JSX.El
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {
-                  Array.from( {length: availablePlacesAmount}, (_, itemIndex) => <Card key={itemIndex} />)
-                }
-              </div>
+              <CardsList offers = {offers} cardClassName={CardClassName.Cities}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
