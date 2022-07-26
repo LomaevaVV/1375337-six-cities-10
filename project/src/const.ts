@@ -12,6 +12,11 @@ export enum AuthorizationStatus {
 }
 
 export enum CardClassName {
-  MainPage = 'cities',
-  PropertyPage = 'near-places'
+  Cities = 'cities',
+  NeaPlaces = 'near-places'
+}
+
+export enum FavoriteBtnComponent {
+  PropertyPage = 'propertyPage',
+  Card = 'card'
 }

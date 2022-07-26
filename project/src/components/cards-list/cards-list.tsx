@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Card from '../../components/card/card';
-import {Offer} from '../../types/offer';
 import {Offers} from '../../types/offer';
 import {CardClassName} from '../../const';
 
@@ -10,18 +9,22 @@ type CardsListProps = {
 };
 
 export default function CardsList({offers, cardClassName}: CardsListProps): JSX.Element {
-  const listClassName = () => cardClassName === CardClassName.MainPage ? `${cardClassName}__places-list` : 'near-places__list';
-  const [, setFocusedCard] = useState({} as Offer);
+  const listClassName =
+    cardClassName === CardClassName.Cities
+      ? `${cardClassName}__places-list`
+      : `${cardClassName}__list`;
+
+  const [, setFocusedCard] = useState(0);
 
   return (
-    <div className={`${listClassName()} places__list tabs__content`}>
+    <div className={`${listClassName} places__list`}>
       {offers.map((item) => (
         <Card
           key={item.id}
           offer={item}
           cardClassName={cardClassName}
-          onMouseOver={() => setFocusedCard(item)}
-          onMouseOut={() => setFocusedCard({} as Offer)}
+          onMouseOver={() => setFocusedCard(item.id)}
+          onMouseLeave={() => setFocusedCard(0)}
         />
       ))}
     </div>

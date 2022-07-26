@@ -1,9 +1,17 @@
 import {Review} from '../../types/review';
-import {setRatingStarsPercent, setHostProStatus} from '../../utils';
+import {formatRatingToStars} from '../../utils';
 
 type ReviewFormProps = {
   review: Review
 };
+
+function HostProStatus (): JSX.Element {
+  return (
+    <span className="property__user-status">
+      Pro
+    </span>
+  );
+}
 
 export default function ReviewCard({review}: ReviewFormProps): JSX.Element {
   const {
@@ -26,12 +34,12 @@ export default function ReviewCard({review}: ReviewFormProps): JSX.Element {
         <span className="reviews__user-name">
           {user.name}
         </span>
-        {user.isPro ? setHostProStatus() : ''}
+        {user.isPro ? <HostProStatus /> : null}
       </div>
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{ width: setRatingStarsPercent(review.rating) }}></span>
+            <span style={{ width: formatRatingToStars(review.rating) }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

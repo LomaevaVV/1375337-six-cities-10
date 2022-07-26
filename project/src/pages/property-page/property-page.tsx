@@ -4,26 +4,36 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import ReviewCard from '../../components/review-card/review-card';
 import ReviewForm from '../../components/review-form/review-form';
 import CardsList from '../../components/cards-list/cards-list';
-import {CardClassName} from '../../const';
+import FavoriteButton from '../../components/favorite-button/favorite-button';
+import {CardClassName, FavoriteBtnComponent} from '../../const';
 import {Offers} from '../../types/offer';
 import {Reviews} from '../../types/review';
-import {setRatingStarsPercent, setHostProStatus} from '../../utils';
+import {formatRatingToStars, ucFirstLetter} from '../../utils';
 
 type PropertyPageProps = {
   offers: Offers,
   reviews: Reviews
 };
 
-const setPropertyStatus = (): JSX.Element => (
-  <div className="property__mark">
-    <span>Premium</span>
-  </div>
-);
+function PropertyStatus (): JSX.Element {
+  return (
+    <div className="property__mark">
+      <span>Premium</span>
+    </div>
+  );
+}
+
+function HostProStatus (): JSX.Element {
+  return (
+    <span className="property__user-status">
+      Pro
+    </span>
+  );
+}
 
 export default function PropertyPage({offers, reviews}: PropertyPageProps): JSX.Element {
   const params = useParams();
   const offer = offers.find((item) => item.id === Number(params.id));
-  const setFavoriteButton = (isFavorite: boolean) => isFavorite ? 'property__bookmark-button--active' : '';
 
   if (!offer) {
     return (<NotFoundPage />);
@@ -63,28 +73,23 @@ export default function PropertyPage({offers, reviews}: PropertyPageProps): JSX.
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {isPremium ? setPropertyStatus() : ''}
+              {isPremium ? <PropertyStatus /> : null}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className={`property__bookmark-button button ${setFavoriteButton(isFavorite)}`} type="button">
-                  <svg className="place-card__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <FavoriteButton isFavorite={isFavorite} pageType={FavoriteBtnComponent.PropertyPage} />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{ width: setRatingStarsPercent(rating) }}></span>
+                  <span style={{ width: formatRatingToStars(rating) }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {type}
+                  {ucFirstLetter(type)}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
                   {bedrooms} Bedrooms
@@ -123,7 +128,7 @@ export default function PropertyPage({offers, reviews}: PropertyPageProps): JSX.
                   <span className="property__user-name">
                     {host.name}
                   </span>
-                  {host.isPro ? setHostProStatus() : ''}
+                  {host.isPro ? <HostProStatus /> : null}
                 </div>
                 <div className="property__description">
                   <p className="property__text">
@@ -150,7 +155,7 @@ export default function PropertyPage({offers, reviews}: PropertyPageProps): JSX.
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <CardsList offers = {offers} cardClassName={CardClassName.PropertyPage}/>
+            <CardsList offers = {offers} cardClassName={CardClassName.NeaPlaces}/>
           </section>
         </div>
       </main>
