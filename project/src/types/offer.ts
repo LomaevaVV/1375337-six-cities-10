@@ -11,7 +11,7 @@ type LocationСoordinates = {
     zoom: number;
   };
 
-type OfferCity = {
+export type OfferCity = {
   location: LocationСoordinates;
   name: string;
 };

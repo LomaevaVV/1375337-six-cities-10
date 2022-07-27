@@ -5,7 +5,8 @@ import ReviewCard from '../../components/review-card/review-card';
 import ReviewForm from '../../components/review-form/review-form';
 import CardsList from '../../components/cards-list/cards-list';
 import FavoriteButton from '../../components/favorite-button/favorite-button';
-import {CardClassName, FavoriteBtnComponent} from '../../const';
+import Map from '../../components/map/map';
+import {CardClassName, FavoriteBtnComponent, mapClassName} from '../../const';
 import {Offers} from '../../types/offer';
 import {Reviews} from '../../types/review';
 import {formatRatingToStars, ucFirstLetter} from '../../utils';
@@ -150,12 +151,12 @@ export default function PropertyPage({offers, reviews}: PropertyPageProps): JSX.
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          < Map mapClassName={mapClassName.Property} city={offers[0].city} points={offers} />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <CardsList offers = {offers} cardClassName={CardClassName.NeaPlaces}/>
+            <CardsList offers = {offers} cardClassName={CardClassName.NearPlaces}/>
           </section>
         </div>
       </main>

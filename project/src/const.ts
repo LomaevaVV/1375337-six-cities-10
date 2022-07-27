@@ -13,10 +13,20 @@ export enum AuthorizationStatus {
 
 export enum CardClassName {
   Cities = 'cities',
-  NeaPlaces = 'near-places'
+  NearPlaces = 'near-places'
+}
+
+export enum mapClassName {
+  Cities = 'cities',
+  Property = 'property'
 }
 
 export enum FavoriteBtnComponent {
   PropertyPage = 'propertyPage',
   Card = 'card'
 }
+
+export const URL_MARKER_DEFAULT = 'img/pin.svg';
+
+export const URL_MARKER_CURRENT = 'img/pin-active.svg';
+
