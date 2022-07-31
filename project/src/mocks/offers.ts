@@ -5,8 +5,8 @@ export const offers: Offers = [
     'bedrooms': 3,
     'city': {
       'location': {
-        'latitude': 52.370216,
-        'longitude': 4.895168,
+        'latitude': 52.3909553943508,
+        'longitude': 4.85309666406198,
         'zoom': 10
       },
       'name': 'Amsterdam'
@@ -41,8 +41,8 @@ export const offers: Offers = [
     'isFavorite': true,
     'isPremium': false,
     'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
+      'latitude': 52.3909553943508,
+      'longitude': 4.85309666406198,
       'zoom': 8
     },
     'maxAdults': 4,
@@ -56,11 +56,11 @@ export const offers: Offers = [
     'bedrooms': 1,
     'city': {
       'location': {
-        'latitude': 48.853410,
-        'longitude': 2.348800,
+        'latitude': 52.369553943508,
+        'longitude': 4.85309666406198,
         'zoom': 10
       },
-      'name': 'Paris'
+      'name': 'Amsterdam'
     },
     'description': 'The place is just a few steps from the flea market and a 10-minute walk from Garibaldi Metro Station.',
     'goods': [
@@ -87,8 +87,8 @@ export const offers: Offers = [
     'isFavorite': false,
     'isPremium': true,
     'location': {
-      'latitude': 48.85341038496378,
-      'longitude': 2.348800537499948,
+      'latitude': 52.369553943508,
+      'longitude': 4.85309666406198,
       'zoom': 8
     },
     'maxAdults': 2,
@@ -102,11 +102,11 @@ export const offers: Offers = [
     'bedrooms': 4,
     'city': {
       'location': {
-        'latitude': 50.853320,
-        'longitude': 4.351440,
+        'latitude': 52.3909553943508,
+        'longitude': 4.929309666406198,
         'zoom': 10
       },
-      'name': 'Brussels'
+      'name': 'Amsterdam'
     },
     'description': 'Centrally located in Brussels, a 10-minute walk away from the Grand-Place, the Manneken Pis Statue, the Rue Neuve Shopping District and Brussels-Central Train Station.',
     'goods': [
@@ -130,8 +130,8 @@ export const offers: Offers = [
     'isFavorite': true,
     'isPremium': false,
     'location': {
-      'latitude': 50.85332038496378,
-      'longitude': 4.351440537499948,
+      'latitude': 52.3909553943508,
+      'longitude': 4.929309666406198,
       'zoom': 8
     },
     'maxAdults': 6,
@@ -145,11 +145,11 @@ export const offers: Offers = [
     'bedrooms': 2,
     'city': {
       'location': {
-        'latitude': 51.221720,
-        'longitude': 6.776160,
+        'latitude': 52.3809553943508,
+        'longitude': 4.939309666406198,
         'zoom': 10
       },
-      'name': 'Dusseldorf'
+      'name': 'Amsterdam'
     },
     'description': 'Clean, very good location, very confortable, good breakfast.',
     'goods': [
@@ -171,8 +171,8 @@ export const offers: Offers = [
     'isFavorite': true,
     'isPremium': false,
     'location': {
-      'latitude': 51.22172038496378,
-      'longitude': 6.776160537499948,
+      'latitude': 52.3809553943508,
+      'longitude': 4.939309666406198,
       'zoom': 8
     },
     'maxAdults': 3,
