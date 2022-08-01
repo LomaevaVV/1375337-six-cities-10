@@ -1,5 +1,5 @@
 import {Review} from '../../types/review';
-import {formatRatingToStars} from '../../utils';
+import {formatRatingToStars, humanizeEventDate} from '../../utils';
 
 type ReviewFormProps = {
   review: Review
@@ -46,7 +46,7 @@ export default function ReviewCard({review}: ReviewFormProps): JSX.Element {
         <p className="reviews__text">
           {comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
+        <time className="reviews__time" dateTime={humanizeEventDate(review.date,'YYYY-MM-DD')}>{humanizeEventDate(review.date,'MMMM YYYY')}</time>
       </div>
     </li>
   );
