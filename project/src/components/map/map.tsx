@@ -1,7 +1,7 @@
 import {useRef, useEffect} from 'react';
 import leaflet from 'leaflet';
 import useMap from '../../hooks/useMap';
-import {OfferCity, Offer, Offers} from '../../types/offer';
+import {OfferCity, Offers} from '../../types/offer';
 import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
 import 'leaflet/dist/leaflet.css';
 
@@ -22,18 +22,16 @@ type MapProps = {
   mapClassName: string;
   city: OfferCity;
   points: Offers;
-  selectedPoint: Offer | undefined;
+  selectedPointId: number | undefined;
 };
 
-export default function Map({mapClassName, city, points, selectedPoint}: MapProps): JSX.Element {
+export default function Map({mapClassName, city, points, selectedPointId}: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
   useEffect(() => {
     if (map) {
-      const pointsToRender = selectedPoint && !points.includes(selectedPoint) ? [...points, selectedPoint] : points;
-
-      pointsToRender.forEach((point) => {
+      points.forEach((point) => {
         const {location} = point;
         const marker = leaflet.marker({
           lat: location.latitude,
@@ -42,14 +40,14 @@ export default function Map({mapClassName, city, points, selectedPoint}: MapProp
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.id === selectedPoint.id
+            selectedPointId && point.id === selectedPointId
               ? currentCustomIcon
               : defaultCustomIcon
           )
           .addTo(map);
       });
     }
-  }, [map, points, selectedPoint]);
+  }, [map, points, selectedPointId]);
 
   return <section className={`${mapClassName}__map map`} ref={mapRef}></section>;
 }

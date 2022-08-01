@@ -6,7 +6,8 @@ import ReviewForm from '../../components/review-form/review-form';
 import CardsList from '../../components/cards-list/cards-list';
 import FavoriteButton from '../../components/favorite-button/favorite-button';
 import Map from '../../components/map/map';
-import {CardClassName, FavoriteBtnComponent, mapClassName} from '../../const';
+import OfferGallery from '../../components/offer-gallery/offer-gallery';
+import {CardClassName, FavoriteBtnComponent, mapClassName, MAX_REVIEWS_ON_PAGE} from '../../const';
 import {Offers} from '../../types/offer';
 import {Reviews, Review} from '../../types/review';
 import {formatRatingToStars, ucFirstLetter} from '../../utils';
@@ -34,7 +35,7 @@ function HostProStatus (): JSX.Element {
 }
 
 const dateCompare = (eventA: Review, eventB: Review) => dayjs(eventB.date).diff(eventA.date, 'minute');
-const getSortedReviews = (reviews: Reviews) => reviews.sort(dateCompare);
+const getSortedReviews = (reviews: Reviews) => [...reviews].sort(dateCompare);
 
 export default function PropertyPage({offers, reviews}: PropertyPageProps): JSX.Element {
   const params = useParams();
@@ -72,16 +73,7 @@ export default function PropertyPage({offers, reviews}: PropertyPageProps): JSX.
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
-            <div className="property__gallery">
-              {
-                images.slice(0, 6)
-                  .map((img) => (
-                    <div key={img} className="property__image-wrapper">
-                      <img className="property__image" src={img} alt={type} />
-                    </div>
-                  ))
-              }
-            </div>
+            <OfferGallery images={images} type={type}/>
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
@@ -156,19 +148,19 @@ export default function PropertyPage({offers, reviews}: PropertyPageProps): JSX.
                   </span>
                 </h2>
                 <ul className="reviews__list">
-                  {sortedReviews.slice(0, 10)
+                  {sortedReviews.slice(0, MAX_REVIEWS_ON_PAGE)
                     .map((item) => <ReviewCard key={item.id} review={item} />)}
                 </ul>
                 <ReviewForm />
               </section>
             </div>
           </div>
-          <Map mapClassName={mapClassName.Property} city={offers[0].city} points={nearOffers} selectedPoint={offer} />
+          <Map mapClassName={mapClassName.Property} city={offers[0].city} points={[...nearOffers, offer]} selectedPointId={offer.id} />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <CardsList offers = {nearOffers} cardClassName={CardClassName.NearPlaces} onListItemHover={() => undefined}/>
+            <CardsList offers = {nearOffers} cardClassName={CardClassName.NearPlaces} />
           </section>
         </div>
       </main>

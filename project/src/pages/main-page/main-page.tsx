@@ -4,7 +4,7 @@ import CardsList from '../../components/cards-list/cards-list';
 import Map from '../../components/map/map';
 import {AppRoute, CardClassName, mapClassName} from '../../const';
 import {Link} from 'react-router-dom';
-import {Offers, Offer} from '../../types/offer';
+import {Offers} from '../../types/offer';
 
 type MainPageProps = {
   offers: Offers;
@@ -12,14 +12,12 @@ type MainPageProps = {
 
 
 export default function MainPage({offers}: MainPageProps): JSX.Element {
-  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
+  const [selectedOfferId, setSelectedOffer] = useState<number | undefined>(
     undefined
   );
 
   const onListItemHover = (listItemId: number) => {
-    const currentOffer = offers.find((offer) => offer.id === listItemId);
-
-    setSelectedOffer(currentOffer);
+    setSelectedOffer(listItemId);
   };
 
   return (
@@ -87,7 +85,7 @@ export default function MainPage({offers}: MainPageProps): JSX.Element {
               <CardsList offers = {offers} cardClassName={CardClassName.Cities} onListItemHover={onListItemHover}/>
             </section>
             <div className="cities__right-section">
-              <Map mapClassName={mapClassName.Cities} city={offers[0].city} points={offers} selectedPoint={selectedOffer} />
+              <Map mapClassName={mapClassName.Cities} city={offers[0].city} points={offers} selectedPointId={selectedOfferId} />
             </div>
           </div>
         </div>
