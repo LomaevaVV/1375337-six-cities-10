@@ -5,7 +5,7 @@ import {CardClassName} from '../../const';
 type CardsListProps = {
   offers: Offers;
   cardClassName: string;
-  onListItemHover?: (listItemName: number) => void;
+  onListItemHover?: (listItemId?: number) => void;
 };
 
 export default function CardsList({offers, cardClassName, onListItemHover}: CardsListProps): JSX.Element {
@@ -21,8 +21,7 @@ export default function CardsList({offers, cardClassName, onListItemHover}: Card
           key={item.id}
           offer={item}
           cardClassName={cardClassName}
-          onMouseOver={onListItemHover ? () => onListItemHover(item.id) : undefined}
-          onMouseLeave={onListItemHover ? () => onListItemHover(0) : undefined}
+          onListItemHover={onListItemHover}
         />
       ))}
     </div>

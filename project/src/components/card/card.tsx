@@ -8,16 +8,15 @@ import FavoriteButton from '../favorite-button/favorite-button';
 type CardProps = {
   offer: Offer;
   cardClassName: string;
-  onMouseOver?: () => void;
-  onMouseLeave?: () => void;
+  onListItemHover?: (listItemId?: number) => void;
 }
 
-export default function Card ({offer, cardClassName, onMouseOver, onMouseLeave}: CardProps): JSX.Element {
+export default function Card ({offer, cardClassName, onListItemHover}: CardProps): JSX.Element {
 
   return (
     <article
-      onMouseOver={() => onMouseOver && onMouseOver()}
-      onMouseLeave={() => onMouseLeave && onMouseLeave()}
+      onMouseOver={() => onListItemHover?.(offer.id)}
+      onMouseLeave={() => onListItemHover?.()}
       className={`${cardClassName}__card place-card`}
     >
       <div className={`${cardClassName}__image-wrapper place-card__image-wrapper`}>

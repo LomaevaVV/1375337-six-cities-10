@@ -16,7 +16,7 @@ export default function MainPage({offers}: MainPageProps): JSX.Element {
     undefined
   );
 
-  const onListItemHover = (listItemId: number) => {
+  const onListItemHover = (listItemId?: number) => {
     setSelectedOffer(listItemId);
   };
 
