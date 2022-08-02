@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Header from '../../components/header/header';
 import CardsList from '../../components/cards-list/cards-list';
 import Map from '../../components/map/map';
@@ -11,6 +12,14 @@ type MainPageProps = {
 
 
 export default function MainPage({offers}: MainPageProps): JSX.Element {
+  const [selectedOfferId, setSelectedOffer] = useState<number | undefined>(
+    undefined
+  );
+
+  const onListItemHover = (listItemId?: number) => {
+    setSelectedOffer(listItemId);
+  };
+
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -73,10 +82,10 @@ export default function MainPage({offers}: MainPageProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <CardsList offers = {offers} cardClassName={CardClassName.Cities}/>
+              <CardsList offers = {offers} cardClassName={CardClassName.Cities} onListItemHover={onListItemHover}/>
             </section>
             <div className="cities__right-section">
-              <Map mapClassName={mapClassName.Cities} city={offers[0].city} points={offers} />
+              <Map mapClassName={mapClassName.Cities} city={offers[0].city} points={offers} selectedPointId={selectedOfferId} />
             </div>
           </div>
         </div>

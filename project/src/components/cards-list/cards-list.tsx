@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Card from '../../components/card/card';
 import {Offers} from '../../types/offer';
 import {CardClassName} from '../../const';
@@ -6,15 +5,14 @@ import {CardClassName} from '../../const';
 type CardsListProps = {
   offers: Offers;
   cardClassName: string;
+  onListItemHover?: (listItemId?: number) => void;
 };
 
-export default function CardsList({offers, cardClassName}: CardsListProps): JSX.Element {
+export default function CardsList({offers, cardClassName, onListItemHover}: CardsListProps): JSX.Element {
   const listClassName =
     cardClassName === CardClassName.Cities
       ? `${cardClassName}__places-list`
       : `${cardClassName}__list`;
-
-  const [, setFocusedCard] = useState(0);
 
   return (
     <div className={`${listClassName} places__list`}>
@@ -23,8 +21,7 @@ export default function CardsList({offers, cardClassName}: CardsListProps): JSX.
           key={item.id}
           offer={item}
           cardClassName={cardClassName}
-          onMouseOver={() => setFocusedCard(item.id)}
-          onMouseLeave={() => setFocusedCard(0)}
+          onListItemHover={onListItemHover}
         />
       ))}
     </div>
