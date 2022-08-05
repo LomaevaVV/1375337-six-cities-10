@@ -31,6 +31,8 @@ export default function Map({mapClassName, city, points, selectedPointId}: MapPr
 
   useEffect(() => {
     if (map) {
+      map.setView(leaflet.latLng(city.location.latitude, city.location.longitude), city.location.zoom);
+
       points.forEach((point) => {
         const {location} = point;
         const marker = leaflet.marker({
@@ -47,7 +49,7 @@ export default function Map({mapClassName, city, points, selectedPointId}: MapPr
           .addTo(map);
       });
     }
-  }, [map, points, selectedPointId]);
+  }, [map, points, selectedPointId, city]);
 
   return <section className={`${mapClassName}__map map`} ref={mapRef}></section>;
 }
