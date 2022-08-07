@@ -11,3 +11,7 @@ export const loadOffers = createAction('load/loadOffers', (value) => ({
 export const setFocusedCardId = createAction('cardsList/setFocusedCardId', (value) => ({
   payload: value
 }));
+
+export const setSortType = createAction('sorting/setSortingType', (value) => ({
+  payload: value
+}));
