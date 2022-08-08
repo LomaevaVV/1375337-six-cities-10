@@ -8,7 +8,7 @@ type CitiesFilterListProps = {
 }
 
 export default function CitiesFilterList({selectedCity, onChangeCity}: CitiesFilterListProps): JSX.Element {
-  const CityClassName = (city: string) => cn('locations__item-link tabs__item', {'tabs__item--active': selectedCity === city});
+  const getCityClassName = (city: string) => cn('locations__item-link tabs__item', {'tabs__item--active': selectedCity === city});
 
   return(
     <div className="tabs">
@@ -18,8 +18,8 @@ export default function CitiesFilterList({selectedCity, onChangeCity}: CitiesFil
             (
               <li key={city.name} className="locations__item">
                 <Link
-                  className={CityClassName(city.name)}
-                  onClick={() => onChangeCity(city.name) }
+                  className={getCityClassName(city.name)}
+                  onClick={() => onChangeCity(city.name)}
                   to={AppRoute.Main}
                 >
                   <span>{city.name}</span>

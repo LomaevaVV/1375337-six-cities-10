@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import { OffersSortTypes } from './const';
+import { Offers } from './types/offer';
 
 const STARS_MAX = 5;
 
@@ -8,4 +10,18 @@ const ucFirstLetter = (string: string) => string.charAt(0).toUpperCase() + strin
 
 const humanizeEventDate = (date: string, format: string) => dayjs(date).format(format);
 
-export {formatRatingToStars, ucFirstLetter, humanizeEventDate};
+const getSortedCards = (offers: Offers, sortType:string) : Offers => {
+  switch (sortType) {
+    case OffersSortTypes.Popular:
+      return offers;
+    case OffersSortTypes.PriceToHigh:
+      return offers?.sort((offerB, offerA) => offerB.price - offerA.price);
+    case OffersSortTypes.PriceToLow:
+      return offers?.sort((offerB, offerA) => offerA.price - offerB.price);
+    case OffersSortTypes.TopRatedFirst:
+      return offers?.sort((offerB, offerA) => offerA.rating - offerB.rating);
+  }
+  return offers;
+};
+
+export {formatRatingToStars, ucFirstLetter, humanizeEventDate, getSortedCards};
