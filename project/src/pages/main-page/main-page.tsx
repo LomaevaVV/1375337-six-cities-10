@@ -5,6 +5,7 @@ import CardsList from '../../components/cards-list/cards-list';
 import Map from '../../components/map/map';
 import CitiesFilterList from '../../components/cards-city-filter/city-filter';
 import CardsSorting from '../../components/cards-sorting/cards-sorting-form';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import { CardClassName, mapClassName, CitiesList } from '../../const';
 import { Offers } from '../../types/offer';
 import { getSortedCards } from '../../utils';
@@ -19,6 +20,15 @@ export default function MainPage({offers}: MainPageProps): JSX.Element {
   const currentCityName = useAppSelector((state) => state.city);
   const selectedOfferId = useAppSelector((state) => state.selectedOfferId);
   const selectedSortType = useAppSelector((state) => state.sortType);
+  const dispatch = useAppDispatch();
+
+  const isDataLoaded = useAppSelector((state) => state.isDataLoaded);
+
+  if (isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   const filteredOffersByCity = offers?.filter((offer) => offer.city.name === currentCityName) || [];
   const sortedOffers: Offers = filteredOffersByCity.length > 0
@@ -26,8 +36,6 @@ export default function MainPage({offers}: MainPageProps): JSX.Element {
     : [];
 
   const currentCity = CitiesList.find((value) => value.name === currentCityName) || CitiesList[0];
-
-  const dispatch = useAppDispatch();
 
   const onListItemHover = (listItemId?: number) => {
     dispatch(setFocusedCardId(listItemId));

@@ -47,9 +47,7 @@ export default function PropertyPage({offers, reviews}: PropertyPageProps): JSX.
     return (<NotFoundPage />);
   }
 
-  const nearOffers = [...offers]; // Заглушка, чтобы на этапе моков выглядело красиво.
-  const offerIndex = nearOffers.indexOf(offer);
-  nearOffers.splice(offerIndex, 1); // После реализации подключения к серверу просто обрезать предложения с сервера до 3х шт.
+  const nearOffers = offers.slice(0, 3);
 
   const {
     bedrooms,
@@ -155,7 +153,7 @@ export default function PropertyPage({offers, reviews}: PropertyPageProps): JSX.
               </section>
             </div>
           </div>
-          <Map mapClassName={mapClassName.Property} city={offers[0].city} points={[...nearOffers, offer]} selectedPointId={offer.id} />
+          <Map mapClassName={mapClassName.Property} city={offer.city} points={[...nearOffers, offer]} selectedPointId={offer.id} />
         </section>
         <div className="container">
           <section className="near-places places">

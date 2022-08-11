@@ -7,6 +7,24 @@ export enum AppRoute {
   Room = '/offer/:id'
 }
 
+export const APIRoute = {
+  Offers: '/hotels',
+  Login: '/login',
+  Logout: '/logout',
+
+  fetchReviews(offerId: number) {
+    return (`/comments/${offerId}`);
+  },
+
+  fetchOfferById(offerId: number) {
+    return (`${this.Offers}/${offerId}`);
+  },
+
+  fetchOffersNearby(offerId: number) {
+    return (`${this.Offers}/${offerId}/nearby`);
+  },
+} as const;
+
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
@@ -96,3 +114,4 @@ export const MAX_IMAGES_ON_PAGE = 6;
 
 export const DEFAULT_CITY = 'Paris';
 
+export const TIMEOUT_SHOW_ERROR = 2000;
