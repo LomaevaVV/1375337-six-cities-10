@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
+import { useAppDispatch } from '../../hooks';
+import { AppRoute, CitiesList } from '../../const';
+import { changeCity } from '../../store/action';
 
 export default function LoginPage(): JSX.Element {
+  const dispatch = useAppDispatch();
+
   return (
     <div className="page page--gray page--login">
       <header className="header">
@@ -30,8 +35,8 @@ export default function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to="/">
-                <span>Amsterdam</span>
+              <Link className="locations__item-link" to={AppRoute.Main} onClick={() => dispatch(changeCity(CitiesList[0].name))}>
+                <span>{CitiesList[0].name}</span>
               </Link>
             </div>
           </section>

@@ -1,20 +1,21 @@
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoute from '../private-route/private-route';
 import MainPage from '../../pages/main-page/main-page';
 import LoginPage from '../../pages/login-page/login-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PropertyPage from '../../pages/property-page/property-page';
-import {AppRoute, AuthorizationStatus} from '../../const';
-import {Offers} from '../../types/offer';
-import {Reviews} from '../../types/review';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { Reviews } from '../../types/review';
+import { useAppSelector } from '../../hooks';
 
 type AppProps = {
-  offers: Offers,
   reviews: Reviews
 };
 
-function App({offers, reviews}:AppProps): JSX.Element {
+function App({reviews}:AppProps): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
+
   return (
     <BrowserRouter>
       <Routes>
