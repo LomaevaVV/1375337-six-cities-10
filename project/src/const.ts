@@ -4,25 +4,13 @@ export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Room = '/offer/:id'
+  Room = '/hotels/:id'
 }
 
 export const APIRoute = {
   Offers: '/hotels',
   Login: '/login',
-  Logout: '/logout',
-
-  fetchReviews(offerId: number) {
-    return (`/comments/${offerId}`);
-  },
-
-  fetchOfferById(offerId: number) {
-    return (`${this.Offers}/${offerId}`);
-  },
-
-  fetchOffersNearby(offerId: number) {
-    return (`${this.Offers}/${offerId}/nearby`);
-  },
+  Logout: '/logout'
 } as const;
 
 export enum AuthorizationStatus {

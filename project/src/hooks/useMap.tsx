@@ -34,6 +34,9 @@ export default function useMap( mapRef: MutableRefObject<HTMLElement | null>, ci
 
       setMap(instance);
       isRenderedRef.current = true;
+    } else {
+      const {location} = city;
+      map?.setView({lat: location.latitude, lng: location.longitude});
     }
   }, [mapRef, map, city]);
 

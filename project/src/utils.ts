@@ -24,4 +24,14 @@ const getSortedCards = (offers: Offers, sortType:string) : Offers => {
   return offers;
 };
 
-export {formatRatingToStars, ucFirstLetter, humanizeEventDate, getSortedCards};
+const validateEmailAndPassword = (email: HTMLInputElement, password: HTMLInputElement): boolean => {
+  const regExpPassword = /^.*(?=.{1,})(?=.*[a-zA-Z])(?=.*\d)/;
+  const regExpEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  if (password.value.match(regExpPassword) && email.value.match(regExpEmail)) {
+    return true;
+  }
+  return false;
+};
+
+export {formatRatingToStars, ucFirstLetter, humanizeEventDate, getSortedCards, validateEmailAndPassword};

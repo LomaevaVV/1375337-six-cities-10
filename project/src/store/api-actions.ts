@@ -5,7 +5,7 @@ import { Offers } from '../types/offer';
 import { AppDispatch, State } from '../types/state';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import { loadOffers, setDataLoadedStatus, requireAuthorization, redirectToRoute } from './action';
+import { loadOffers, setDataLoadedStatus, requireAuthorization, redirectToRoute, getUserEmail } from './action';
 import { toast } from 'react-toastify';
 import { dropToken, saveToken } from '../services/token';
 
@@ -17,16 +17,11 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
 }>(
   'data/fetchOffers',
   async (_arg, {dispatch, extra: api}) => {
-    try {
-      dispatch(setDataLoadedStatus(true));
-      const {data} = await api.get<Offers>(APIRoute.Offers);
-      dispatch(loadOffers(data));
-      dispatch(setDataLoadedStatus(false));
-    } catch {
-      toast.error('Server connection error');
-    }
-  },
-);
+    dispatch(setDataLoadedStatus(true));
+    const {data} = await api.get<Offers>(APIRoute.Offers);
+    dispatch(loadOffers(data));
+    dispatch(setDataLoadedStatus(false));
+  });
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
@@ -56,6 +51,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
       saveToken(token);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(redirectToRoute(AppRoute.Main));
+      dispatch(getUserEmail(email));
     } catch {
       toast.error('Server connection error');
     }

@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from '../private-route/private-route';
 import MainPage from '../../pages/main-page/main-page';
 import LoginPage from '../../pages/login-page/login-page';
@@ -6,22 +6,16 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PropertyPage from '../../pages/property-page/property-page';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { Reviews } from '../../types/review';
-import { useAppSelector } from '../../hooks';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
-type AppProps = {
-  reviews: Reviews
-};
-
-function App({reviews}:AppProps): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
-
+function App(): JSX.Element {
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainPage offers={offers} />}
+          element={<MainPage />}
         />
         <Route
           path={AppRoute.Login}
@@ -29,7 +23,7 @@ function App({reviews}:AppProps): JSX.Element {
         />
         <Route
           path={AppRoute.Room}
-          element={<PropertyPage offers={offers} reviews={reviews}/>}
+          element={<PropertyPage />}
         />
         <Route
           path={AppRoute.Favorites}
@@ -44,7 +38,7 @@ function App({reviews}:AppProps): JSX.Element {
           element={<NotFoundPage />}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 
