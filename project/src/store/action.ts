@@ -22,4 +22,6 @@ export const setSortType = createAction('sorting/setSortingType', (value) => ({
   payload: value
 }));
 
-// export const setError = createAction<string | null>('game/setError');
+export const getUserEmail = createAction('login/getUserEmail', (value) => ({
+  payload: value
+}));

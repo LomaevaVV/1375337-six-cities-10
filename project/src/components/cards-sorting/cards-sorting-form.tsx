@@ -21,6 +21,7 @@ export default function CardsSortingForm(): JSX.Element {
   return(
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
+      &nbsp;
       <span className="places__sorting-type" tabIndex={0} onClick={handleSelectSortingClick}>
         {selectedSortType}
         <svg className="places__sorting-arrow" width="7" height="4">

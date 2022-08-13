@@ -1,20 +1,14 @@
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
-import { StatusCodes } from 'http-status-codes';
-import {getToken} from './token';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import { getToken } from './token';
 import { toast } from 'react-toastify';
 
-const StatusCodeMapping: Record<number, boolean> = {
-  [StatusCodes.BAD_REQUEST]: true,
-  [StatusCodes.UNAUTHORIZED]: true,
-  [StatusCodes.NOT_FOUND]: true
-};
-
-const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
+const shouldDisplayError = (response: AxiosResponse) => response.status >= 400;
 
 const BACKEND_URL = 'https://10.react.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
 
 export const createAPI = (): AxiosInstance => {
+
   const api = axios.create({
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
@@ -36,8 +30,8 @@ export const createAPI = (): AxiosInstance => {
     (response) => response,
     (error: AxiosError) => {
       if (error.response && shouldDisplayError(error.response)) {
-        toast.warn(error.response.data.error, {
-          position: toast.POSITION.TOP_CENTER
+        toast.error(error.response.data.error, {
+          position: toast.POSITION.TOP_CENTER,
         });
       }
 

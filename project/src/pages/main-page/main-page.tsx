@@ -5,18 +5,12 @@ import CardsList from '../../components/cards-list/cards-list';
 import Map from '../../components/map/map';
 import CitiesFilterList from '../../components/cards-city-filter/city-filter';
 import CardsSorting from '../../components/cards-sorting/cards-sorting-form';
-import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import LoadingScreen from '../../components/loader/loading-screen';
 import { CardClassName, mapClassName, CitiesList } from '../../const';
-import { Offers } from '../../types/offer';
 import { getSortedCards } from '../../utils';
 
-
-type MainPageProps = {
-  offers: Offers;
-};
-
-
-export default function MainPage({offers}: MainPageProps): JSX.Element {
+export default function MainPage(): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
   const currentCityName = useAppSelector((state) => state.city);
   const selectedOfferId = useAppSelector((state) => state.selectedOfferId);
   const selectedSortType = useAppSelector((state) => state.sortType);
@@ -30,10 +24,8 @@ export default function MainPage({offers}: MainPageProps): JSX.Element {
     );
   }
 
-  const filteredOffersByCity = offers?.filter((offer) => offer.city.name === currentCityName) || [];
-  const sortedOffers: Offers = filteredOffersByCity.length > 0
-    ? getSortedCards(filteredOffersByCity, selectedSortType)
-    : [];
+  const filteredOffersByCity = offers.filter((offer) => offer.city.name === currentCityName);
+  const sortedOffers = getSortedCards(filteredOffersByCity, selectedSortType);
 
   const currentCity = CitiesList.find((value) => value.name === currentCityName) || CitiesList[0];
 

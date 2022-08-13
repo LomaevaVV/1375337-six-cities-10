@@ -1,26 +1,36 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, loadOffers, setFocusedCardId, setSortType, setDataLoadedStatus, requireAuthorization } from './action';
 import { DEFAULT_CITY, AuthorizationStatus } from '../const';
 import { Offers } from '../types/offer';
+import { Reviews } from '../types/review';
+import { changeCity,
+  loadOffers,
+  setFocusedCardId,
+  setSortType,
+  setDataLoadedStatus,
+  requireAuthorization,
+  getUserEmail
+} from './action';
 
 type InitalState = {
   city: string
   selectedOfferId: number | undefined;
   offers: Offers;
+  reviews: Reviews;
   sortType: string;
   authorizationStatus: AuthorizationStatus,
-  error: string | null,
   isDataLoaded: boolean;
+  userEmail: string;
 };
 
 const initialState: InitalState = {
   city: DEFAULT_CITY,
   selectedOfferId: undefined,
   offers: [],
+  reviews: [],
   sortType: 'Popular',
   authorizationStatus: AuthorizationStatus.Unknown,
-  error: null,
-  isDataLoaded: false
+  isDataLoaded: false,
+  userEmail: ''
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -42,6 +52,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setSortType, (state, action) => {
       state.sortType = action.payload;
+    })
+    .addCase(getUserEmail, (state, action) => {
+      state.userEmail = action.payload;
     });
 });
 

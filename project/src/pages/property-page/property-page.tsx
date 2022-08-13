@@ -8,15 +8,10 @@ import FavoriteButton from '../../components/favorite-button/favorite-button';
 import Map from '../../components/map/map';
 import OfferGallery from '../../components/offer-gallery/offer-gallery';
 import {CardClassName, FavoriteBtnComponent, mapClassName, MAX_REVIEWS_ON_PAGE} from '../../const';
-import {Offers} from '../../types/offer';
+import { useAppSelector } from '../../hooks/index';
 import {Reviews, Review} from '../../types/review';
 import {formatRatingToStars, ucFirstLetter} from '../../utils';
 import dayjs from 'dayjs';
-
-type PropertyPageProps = {
-  offers: Offers,
-  reviews: Reviews
-};
 
 function PropertyStatus (): JSX.Element {
   return (
@@ -37,7 +32,10 @@ function HostProStatus (): JSX.Element {
 const dateCompare = (eventA: Review, eventB: Review) => dayjs(eventB.date).diff(eventA.date, 'minute');
 const getSortedReviews = (reviews: Reviews) => [...reviews].sort(dateCompare);
 
-export default function PropertyPage({offers, reviews}: PropertyPageProps): JSX.Element {
+export default function PropertyPage(): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
+  const reviews = useAppSelector((state) => state.reviews);
+
   const params = useParams();
   const offer = offers.find((item) => item.id === Number(params.id));
 

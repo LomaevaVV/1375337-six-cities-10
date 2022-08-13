@@ -1,12 +1,12 @@
 import {Link} from 'react-router-dom';
-import styles from './not-found-page.module.css';
+import styles from './error-page.module.css';
 import Logo from '../../components/logo/logo';
 import { AppRoute } from '../../const';
 
-export default function NotFoundPage(): JSX.Element {
+export default function ErrorPage(): JSX.Element {
   return (
 
-    <div className={'page page--gray' && styles.page_notfound}>
+    <div className={'page page--gray' && styles.page_error}>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
