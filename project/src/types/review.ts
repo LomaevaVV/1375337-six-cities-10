@@ -13,4 +13,11 @@ export type Review = {
   user: ReviewAuthor
 };
 
+export type ReviewComment = {
+  offerId: number
+  comment: string
+  rating: number
+  resetData: () => void
+};
+
 export type Reviews = Review[];

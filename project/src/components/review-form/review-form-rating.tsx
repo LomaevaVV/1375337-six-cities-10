@@ -13,10 +13,11 @@ const RatingStarsTitles: {
 
 type FormRatingProps = {
   index: number;
+  currentRating: number;
   onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export default function ReviewFormRating({index, onChange}: FormRatingProps): JSX.Element {
+export default function ReviewFormRating({index, currentRating, onChange}: FormRatingProps): JSX.Element {
   return (
     <React.Fragment>
       <input
@@ -26,6 +27,7 @@ export default function ReviewFormRating({index, onChange}: FormRatingProps): JS
         id={`${index}-stars`}
         type="radio"
         onChange={onChange}
+        checked={currentRating === index}
       />
       <label
         htmlFor={`${index}-stars`}

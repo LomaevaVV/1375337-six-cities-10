@@ -5,7 +5,8 @@ import CardsList from '../../components/cards-list/cards-list';
 import Map from '../../components/map/map';
 import CitiesFilterList from '../../components/cards-city-filter/city-filter';
 import CardsSorting from '../../components/cards-sorting/cards-sorting-form';
-import LoadingScreen from '../../components/loader/loading-screen';
+import LoadingScreen from '../../components/loader/loader';
+import Navigation from '../../components/header/navigation';
 import { CardClassName, mapClassName, CitiesList } from '../../const';
 import { getSortedCards } from '../../utils';
 
@@ -39,7 +40,9 @@ export default function MainPage(): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
-      <Header />
+      <Header>
+        <Navigation />
+      </Header>
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>

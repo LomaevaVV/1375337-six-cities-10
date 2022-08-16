@@ -10,7 +10,10 @@ export enum AppRoute {
 export const APIRoute = {
   Offers: '/hotels',
   Login: '/login',
-  Logout: '/logout'
+  Logout: '/logout',
+  Reviews: '/comments/:id',
+  NearbyOffers: '/hotels/:id/nearby',
+  Offer: '/hotels/:id'
 } as const;
 
 export enum AuthorizationStatus {
@@ -103,3 +106,7 @@ export const MAX_IMAGES_ON_PAGE = 6;
 export const DEFAULT_CITY = 'Paris';
 
 export const TIMEOUT_SHOW_ERROR = 2000;
+
+export const REVIEW_MIN_LENGTH = 50;
+
+export const REVIEW_MAX_LENGTH = 300;

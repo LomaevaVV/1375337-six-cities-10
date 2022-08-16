@@ -1,29 +1,64 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import ReviewFormRating from '../review-form-rating/review-form-rating';
+import ReviewFormRating from './review-form-rating';
+import { useAppDispatch } from '../../hooks';
+import { postReviewAction } from '../../store/api-actions';
+import { REVIEW_MAX_LENGTH, REVIEW_MIN_LENGTH } from '../../const';
 
-export default function ReviewForm(): JSX.Element {
-  const [reviewForm, setReviewForm] = useState({
-    rating: 0,
-    review: ''
+type ReviewFormProps = {
+  OfferId: number;
+}
+
+export default function ReviewForm({OfferId}: ReviewFormProps): JSX.Element {
+  const [reviewData, setReviewData] = useState({
+    comment: '',
+    rating: 0
   });
+
+  const [isReviewLengthOk, setIsReviewLengthOk] = useState(false);
+
+  const dispatch = useAppDispatch();
+
+  const resetFormData = () => {
+    setReviewData({...reviewData, 'comment': '', 'rating': 0});
+  };
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+    const reviewComment = {
+      ...reviewData,
+      offerId: OfferId,
+      resetData: resetFormData
+    };
+    dispatch(postReviewAction(reviewComment));
   };
 
+  const checkReviewLength = (review: string) => {
+    if(review.length >= REVIEW_MIN_LENGTH && review.length <= REVIEW_MAX_LENGTH) {
+      setIsReviewLengthOk(true);
+      return;
+    }
+    setIsReviewLengthOk(false);
+  };
+
+  const isDisabled = () => isReviewLengthOk && reviewData.rating !== 0;
+
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    evt.preventDefault();
     const {name, value} = evt.target;
 
-    setReviewForm({
-      ...reviewForm,
+    setReviewData({
+      ...reviewData,
       [name]: value
     });
+
+    checkReviewLength(reviewData.comment);
+    window.console.log(isDisabled);
   };
 
   const getRatingStars = () => {
     const ratingFields = [];
     for (let i = 5; i > 0; i--) {
-      ratingFields.push(<ReviewFormRating key={i} index={i} onChange={handleInputChange}/>);
+      ratingFields.push(<ReviewFormRating key={i} index={i} currentRating={reviewData.rating} onChange={handleInputChange}/>);
     }
     return ratingFields;
   };
@@ -36,9 +71,10 @@ export default function ReviewForm(): JSX.Element {
         {getRatingStars()}
       </div>
       <textarea
+        value={reviewData.comment}
         className="reviews__textarea form__textarea"
         id="review"
-        name="review"
+        name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleInputChange}
       />
@@ -49,7 +85,7 @@ export default function ReviewForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!reviewForm.review || !reviewForm.rating}
+          disabled={!isReviewLengthOk || reviewData.rating === 0}
         >
           Submit
         </button>

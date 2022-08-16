@@ -1,17 +1,18 @@
 import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import Header from '../../components/header/header';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
-import ReviewCard from '../../components/review-card/review-card';
-import ReviewForm from '../../components/review-form/review-form';
 import CardsList from '../../components/cards-list/cards-list';
 import FavoriteButton from '../../components/favorite-button/favorite-button';
 import Map from '../../components/map/map';
 import OfferGallery from '../../components/offer-gallery/offer-gallery';
-import {CardClassName, FavoriteBtnComponent, mapClassName, MAX_REVIEWS_ON_PAGE} from '../../const';
-import { useAppSelector } from '../../hooks/index';
-import {Reviews, Review} from '../../types/review';
+import {CardClassName, FavoriteBtnComponent, mapClassName } from '../../const';
+import { useAppSelector, useAppDispatch } from '../../hooks/index';
 import {formatRatingToStars, ucFirstLetter} from '../../utils';
-import dayjs from 'dayjs';
+import Navigation from '../../components/header/navigation';
+import Loader from '../../components/loader/loader';
+import { fetchOfferAction, fetchNearbyOffersAction, fetchReviewsAction } from '../../store/api-actions';
+import ReviewsSection from '../../components/reviews/reviews-section';
 
 function PropertyStatus (): JSX.Element {
   return (
@@ -29,23 +30,29 @@ function HostProStatus (): JSX.Element {
   );
 }
 
-const dateCompare = (eventA: Review, eventB: Review) => dayjs(eventB.date).diff(eventA.date, 'minute');
-const getSortedReviews = (reviews: Reviews) => [...reviews].sort(dateCompare);
-
 export default function PropertyPage(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
-  const reviews = useAppSelector((state) => state.reviews);
+  const {id} = useParams();
+  const dispatch = useAppDispatch();
 
-  const params = useParams();
-  const offer = offers.find((item) => item.id === Number(params.id));
+  useEffect(() => {
+    dispatch(fetchOfferAction(Number(id)));
+    dispatch(fetchNearbyOffersAction(Number(id)));
+    dispatch(fetchReviewsAction(Number(id)));
+  }, [dispatch, id]);
 
-  const sortedReviews = getSortedReviews(reviews);
+  const offer = useAppSelector((state) => state.offer);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers).slice(0, 3);
+  const isDataLoaded = useAppSelector((state) => state.isDataLoaded);
+
+  if (isDataLoaded || !offer) {
+    return (
+      <Loader />
+    );
+  }
 
   if (!offer) {
     return (<NotFoundPage />);
   }
-
-  const nearOffers = offers.slice(0, 3);
 
   const {
     bedrooms,
@@ -64,7 +71,9 @@ export default function PropertyPage(): JSX.Element {
 
   return (
     <div className="page">
-      <Header />
+      <Header>
+        <Navigation />
+      </Header>
 
       <main className="page__main page__main--property">
         <section className="property">
@@ -136,27 +145,15 @@ export default function PropertyPage(): JSX.Element {
                   </p>
                 </div>
               </div>
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">
-                  Reviews &middot;
-                  <span className="reviews__amount">
-                    {reviews.length}
-                  </span>
-                </h2>
-                <ul className="reviews__list">
-                  {sortedReviews.slice(0, MAX_REVIEWS_ON_PAGE)
-                    .map((item) => <ReviewCard key={item.id} review={item} />)}
-                </ul>
-                <ReviewForm />
-              </section>
+              <ReviewsSection OfferId={Number(id)} />
             </div>
           </div>
-          <Map mapClassName={mapClassName.Property} city={offer.city} points={[...nearOffers, offer]} selectedPointId={offer.id} />
+          <Map mapClassName={mapClassName.Property} city={offer.city} points={[...nearbyOffers, offer]} selectedPointId={offer.id} />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <CardsList offers = {nearOffers} cardClassName={CardClassName.NearPlaces} />
+            <CardsList offers = {nearbyOffers} cardClassName={CardClassName.NearPlaces} />
           </section>
         </div>
       </main>

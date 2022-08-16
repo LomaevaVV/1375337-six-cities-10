@@ -1,5 +1,5 @@
 import MoonLoader from 'react-spinners/MoonLoader';
-import styles from './loading-screen.module.css';
+import styles from './loader.module.css';
 
 export default function LoadingScreen(): JSX.Element {
   return (
