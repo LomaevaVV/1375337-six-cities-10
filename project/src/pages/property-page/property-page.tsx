@@ -6,13 +6,13 @@ import CardsList from '../../components/cards-list/cards-list';
 import FavoriteButton from '../../components/favorite-button/favorite-button';
 import Map from '../../components/map/map';
 import OfferGallery from '../../components/offer-gallery/offer-gallery';
-import {CardClassName, FavoriteBtnComponent, mapClassName } from '../../const';
+import {CardClassName, FavoriteBtnComponent, mapClassName, NEARBY_CARDS_AMOUNT } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks/index';
 import {formatRatingToStars, ucFirstLetter} from '../../utils';
 import Navigation from '../../components/header/navigation';
 import Loader from '../../components/loader/loader';
 import { fetchOfferAction, fetchNearbyOffersAction, fetchReviewsAction } from '../../store/api-actions';
-import ReviewsSection from '../../components/reviews/reviews-section';
+import Reviews from '../../components/reviews/reviews';
 
 function PropertyStatus (): JSX.Element {
   return (
@@ -41,7 +41,7 @@ export default function PropertyPage(): JSX.Element {
   }, [dispatch, id]);
 
   const offer = useAppSelector((state) => state.offer);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers).slice(0, 3);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers).slice(0, NEARBY_CARDS_AMOUNT);
   const isDataLoaded = useAppSelector((state) => state.isDataLoaded);
 
   if (isDataLoaded || !offer) {
@@ -82,7 +82,7 @@ export default function PropertyPage(): JSX.Element {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {isPremium ? <PropertyStatus /> : null}
+              {isPremium && <PropertyStatus />}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
                   {title}
@@ -118,7 +118,8 @@ export default function PropertyPage(): JSX.Element {
                     goods.map((item) => (
                       <li key={item} className="property__inside-item">
                         {item}
-                      </li>))
+                      </li>)
+                    )
                   }
                 </ul>
               </div>
@@ -137,7 +138,7 @@ export default function PropertyPage(): JSX.Element {
                   <span className="property__user-name">
                     {host.name}
                   </span>
-                  {host.isPro ? <HostProStatus /> : null}
+                  {host.isPro && <HostProStatus />}
                 </div>
                 <div className="property__description">
                   <p className="property__text">
@@ -145,15 +146,20 @@ export default function PropertyPage(): JSX.Element {
                   </p>
                 </div>
               </div>
-              <ReviewsSection OfferId={Number(id)} />
+              <Reviews OfferId={Number(id)} />
             </div>
           </div>
-          <Map mapClassName={mapClassName.Property} city={offer.city} points={[...nearbyOffers, offer]} selectedPointId={offer.id} />
+          <Map
+            mapClassName={mapClassName.Property}
+            city={offer.city}
+            points={[...nearbyOffers, offer]}
+            selectedPointId={offer.id}
+          />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <CardsList offers = {nearbyOffers} cardClassName={CardClassName.NearPlaces} />
+            <CardsList offers={nearbyOffers} cardClassName={CardClassName.NearPlaces} />
           </section>
         </div>
       </main>

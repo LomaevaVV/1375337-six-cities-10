@@ -29,10 +29,16 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
 }>(
   'data/fetchOffers',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(setDataLoadedStatus(true));
-    const {data} = await api.get<Offers>(APIRoute.Offers);
-    dispatch(loadOffers(data));
-    dispatch(setDataLoadedStatus(false));
+    try {
+      dispatch(setDataLoadedStatus(true));
+      const {data} = await api.get<Offers>(APIRoute.Offers);
+      dispatch(loadOffers(data));
+      dispatch(setDataLoadedStatus(false));
+    } catch {
+      toast.error('Offers loading error', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   });
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
@@ -43,10 +49,14 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   'user/checkAuth',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      await api.get(APIRoute.Login);
+      const {data: {email}} = await api.get(APIRoute.Login);
+      dispatch(getUserEmail(email));
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+      toast.warn('Unable to check authorization status', {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   },
 );
@@ -65,7 +75,9 @@ export const loginAction = createAsyncThunk<void, AuthData, {
       dispatch(redirectToRoute(AppRoute.Main));
       dispatch(getUserEmail(email));
     } catch {
-      toast.error('Server connection error');
+      toast.error('Unable to login', {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   },
 );
@@ -82,7 +94,9 @@ export const logoutAction = createAsyncThunk<void, undefined, {
       dropToken();
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     } catch {
-      toast.error('Server connection error');
+      toast.error('Unable to logout', {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   },
 );
@@ -94,10 +108,16 @@ export const fetchOfferAction = createAsyncThunk<void, number, {
 }>(
   'data/fetchOffer',
   async (offerId, {dispatch, extra: api}) => {
-    dispatch(setDataLoadedStatus(true));
-    const {data} = await api.get<Offer>(generatePath(APIRoute.Offer, {id: String(offerId)}));
-    dispatch(loadOffer(data));
-    dispatch(setDataLoadedStatus(false));
+    try {
+      dispatch(setDataLoadedStatus(true));
+      const {data} = await api.get<Offer>(generatePath(APIRoute.Offer, {id: String(offerId)}));
+      dispatch(loadOffer(data));
+      dispatch(setDataLoadedStatus(false));
+    } catch {
+      toast.error('Offer details loading error', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   });
 
 export const fetchReviewsAction = createAsyncThunk<void, number, {
@@ -107,10 +127,16 @@ export const fetchReviewsAction = createAsyncThunk<void, number, {
 }>(
   'data/fetchReviews',
   async (offerId, {dispatch, extra: api}) => {
-    dispatch(setDataLoadedStatus(true));
-    const {data} = await api.get<Reviews>(generatePath(APIRoute.Reviews, {id: String(offerId)}));
-    dispatch(loadRewies(data));
-    dispatch(setDataLoadedStatus(false));
+    try {
+      dispatch(setDataLoadedStatus(true));
+      const {data} = await api.get<Reviews>(generatePath(APIRoute.Reviews, {id: String(offerId)}));
+      dispatch(loadRewies(data));
+      dispatch(setDataLoadedStatus(false));
+    } catch {
+      toast.error('Reviews loading error', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   });
 
 export const fetchNearbyOffersAction = createAsyncThunk<void, number, {
@@ -120,10 +146,16 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, number, {
 }>(
   'data/fetchNearbyOffers',
   async (offerId, {dispatch, extra: api}) => {
-    dispatch(setDataLoadedStatus(true));
-    const {data} = await api.get<Offers>(generatePath(APIRoute.NearbyOffers, {id: String(offerId)}));
-    dispatch(loadNearbyOffers(data));
-    dispatch(setDataLoadedStatus(false));
+    try {
+      dispatch(setDataLoadedStatus(true));
+      const {data} = await api.get<Offers>(generatePath(APIRoute.NearbyOffers, {id: String(offerId)}));
+      dispatch(loadNearbyOffers(data));
+      dispatch(setDataLoadedStatus(false));
+    } catch {
+      toast.error('Nearby offers loading error', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   });
 
 export const postReviewAction = createAsyncThunk<void, ReviewComment, {
@@ -138,11 +170,10 @@ export const postReviewAction = createAsyncThunk<void, ReviewComment, {
         generatePath(APIRoute.Reviews, {id: String(offerId)}),
         {comment, rating}
       );
-      window.console.log(data);
       dispatch(setReviews(data));
       resetData();
     } catch {
-      toast.error('Server connection error');
+      toast.error('Unable to to post a review');
     }
   },
 );

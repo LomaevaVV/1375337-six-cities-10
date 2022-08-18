@@ -16,7 +16,7 @@ export type Review = {
 export type ReviewComment = {
   offerId: number
   comment: string
-  rating: number
+  rating: string
   resetData: () => void
 };
 

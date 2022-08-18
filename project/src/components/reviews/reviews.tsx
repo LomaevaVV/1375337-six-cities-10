@@ -1,18 +1,18 @@
-import ReviewCard from '../../components/review-card/review-card';
-import ReviewForm from '../../components/review-form/review-form';
+import ReviewCard from '../review-card/review-card';
+import ReviewForm from '../review-form/review-form';
 import { MAX_REVIEWS_ON_PAGE, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks/index';
-import { Reviews, Review } from '../../types/review';
+import { Review } from '../../types/review';
 import dayjs from 'dayjs';
 
 const dateCompare = (eventA: Review, eventB: Review) => dayjs(eventB.date).diff(eventA.date, 'minute');
-const getSortedReviews = (reviews: Reviews) => [...reviews].sort(dateCompare);
+const getSortedReviews = (reviews: Review[]) => [...reviews].sort(dateCompare);
 
-type ReviewsSectionProps = {
+type ReviewsProps = {
   OfferId: number;
 }
 
-export default function ReviewsSection({OfferId}: ReviewsSectionProps): JSX.Element {
+export default function Reviews({OfferId}: ReviewsProps): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const reviews = useAppSelector((state) => state.reviews);
