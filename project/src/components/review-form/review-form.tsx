@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import ReviewFormRating from './review-form-rating';
 import { useAppDispatch } from '../../hooks';
 import { postReviewAction } from '../../store/api-actions';
-import { REVIEW_MAX_LENGTH, REVIEW_MIN_LENGTH } from '../../const';
+import { ReviewLenght } from '../../const';
 
 const RatingStarsTitles: {
   [key: number]: string
@@ -41,8 +41,8 @@ export default function ReviewForm({OfferId}: ReviewFormProps): JSX.Element {
   };
 
   const isDisabled = reviewData.rating === '0'
-  || reviewData.comment.length <= REVIEW_MIN_LENGTH
-  || reviewData.comment.length >= REVIEW_MAX_LENGTH;
+  || reviewData.comment.length <= ReviewLenght.MIN
+  || reviewData.comment.length >= ReviewLenght.MAX;
 
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     evt.preventDefault();

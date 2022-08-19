@@ -1,67 +1,62 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { generatePath } from 'react-router';
 import { AxiosInstance } from 'axios';
-import { APIRoute, AuthorizationStatus, AppRoute } from '../const';
+import { APIRoute, AppRoute } from '../const';
 import { Offers, Offer } from '../types/offer';
 import { Reviews } from '../types/review';
 import { AppDispatch, State } from '../types/state';
 import { AuthData } from '../types/auth-data';
 import { ReviewComment } from '../types/review';
 import { UserData } from '../types/user-data';
-import { loadOffers,
-  loadOffer,
-  loadNearbyOffers,
-  loadRewies,
-  setDataLoadedStatus,
-  requireAuthorization,
-  redirectToRoute,
-  getUserEmail,
-  setReviews
+import {
+  redirectToRoute
 } from './action';
 import { toast } from 'react-toastify';
 import { dropToken, saveToken } from '../services/token';
 
 
-export const fetchOffersAction = createAsyncThunk<void, undefined, {
+export const fetchOffersAction = createAsyncThunk<Offers, undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'data/fetchOffers',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     try {
-      dispatch(setDataLoadedStatus(true));
       const {data} = await api.get<Offers>(APIRoute.Offers);
-      dispatch(loadOffers(data));
-      dispatch(setDataLoadedStatus(false));
+
+      return data;
     } catch {
       toast.error('Offers loading error', {
         position: toast.POSITION.TOP_CENTER,
       });
+
+      throw new Error('Offers loading error');
     }
   });
 
-export const checkAuthAction = createAsyncThunk<void, undefined, {
+export const checkAuthAction = createAsyncThunk<string, undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'user/checkAuth',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     try {
       const {data: {email}} = await api.get(APIRoute.Login);
-      dispatch(getUserEmail(email));
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+
+      return email;
     } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
       toast.warn('Unable to check authorization status', {
         position: toast.POSITION.TOP_CENTER,
       });
+
+      return '';
     }
   },
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, {
+export const loginAction = createAsyncThunk<string, AuthData, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -71,13 +66,15 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     try {
       const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
       saveToken(token);
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(redirectToRoute(AppRoute.Main));
-      dispatch(getUserEmail(email));
+
+      return email;
     } catch {
       toast.error('Unable to login', {
         position: toast.POSITION.TOP_CENTER,
       });
+
+      throw new Error('Unable to login');
     }
   },
 );
@@ -92,7 +89,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     try {
       await api.delete(APIRoute.Logout);
       dropToken();
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     } catch {
       toast.error('Unable to logout', {
         position: toast.POSITION.TOP_CENTER,
@@ -101,45 +97,46 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const fetchOfferAction = createAsyncThunk<void, number, {
+export const fetchOfferAction = createAsyncThunk<Offer, number, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'data/fetchOffer',
-  async (offerId, {dispatch, extra: api}) => {
+  async (offerId, {extra: api}) => {
     try {
-      dispatch(setDataLoadedStatus(true));
       const {data} = await api.get<Offer>(generatePath(APIRoute.Offer, {id: String(offerId)}));
-      dispatch(loadOffer(data));
-      dispatch(setDataLoadedStatus(false));
+      return data;
     } catch {
       toast.error('Offer details loading error', {
         position: toast.POSITION.TOP_CENTER,
       });
+
+      throw new Error('Offer details loading error');
     }
   });
 
-export const fetchReviewsAction = createAsyncThunk<void, number, {
+export const fetchReviewsAction = createAsyncThunk<Reviews, number, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'data/fetchReviews',
-  async (offerId, {dispatch, extra: api}) => {
+  async (offerId, {extra: api}) => {
     try {
-      dispatch(setDataLoadedStatus(true));
       const {data} = await api.get<Reviews>(generatePath(APIRoute.Reviews, {id: String(offerId)}));
-      dispatch(loadRewies(data));
-      dispatch(setDataLoadedStatus(false));
+
+      return data;
     } catch {
       toast.error('Reviews loading error', {
         position: toast.POSITION.TOP_CENTER,
       });
+
+      return [];
     }
   });
 
-export const fetchNearbyOffersAction = createAsyncThunk<void, number, {
+export const fetchNearbyOffersAction = createAsyncThunk<Offers, number, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -147,33 +144,39 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, number, {
   'data/fetchNearbyOffers',
   async (offerId, {dispatch, extra: api}) => {
     try {
-      dispatch(setDataLoadedStatus(true));
       const {data} = await api.get<Offers>(generatePath(APIRoute.NearbyOffers, {id: String(offerId)}));
-      dispatch(loadNearbyOffers(data));
-      dispatch(setDataLoadedStatus(false));
+
+      return data;
     } catch {
       toast.error('Nearby offers loading error', {
         position: toast.POSITION.TOP_CENTER,
       });
+
+      return [];
     }
   });
 
-export const postReviewAction = createAsyncThunk<void, ReviewComment, {
+export const postReviewAction = createAsyncThunk<Reviews, ReviewComment, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'data/post reviewComment',
-  async ({offerId, comment, rating, resetData}, {dispatch, extra: api}) => {
+  async ({offerId, comment, rating, resetData}, {extra: api}) => {
     try {
-      const {data} = await api.post<UserData>(
+      const {data} = await api.post<Reviews>(
         generatePath(APIRoute.Reviews, {id: String(offerId)}),
         {comment, rating}
       );
-      dispatch(setReviews(data));
+
       resetData();
+      return data;
     } catch {
-      toast.error('Unable to to post a review');
+      toast.error('Unable to to post a review', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+
+      throw new Error('Unable to to post a review');
     }
   },
 );

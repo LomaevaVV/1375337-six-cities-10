@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import LoginForm from './login-form';
 import { AppRoute, CitiesList } from '../../const';
-import { changeCity } from '../../store/action';
 import { useAppDispatch } from '../../hooks';
 import Header from '../../components/header/header';
+import { changeCity } from '../../store/usecase-process/usecase-process';
 
 export default function LoginPage(): JSX.Element {
   const cityRandom = CitiesList[Math.floor(Math.random() * CitiesList.length)];

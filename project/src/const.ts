@@ -1,4 +1,4 @@
-import {OfferCity} from '../src/types/offer';
+import { OfferCity } from '../src/types/offer';
 
 export enum AppRoute {
   Main = '/',
@@ -95,20 +95,26 @@ export const CitiesList: OfferCity[] = [
   }
 ];
 
-export const URL_MARKER_DEFAULT = 'img/pin.svg';
-
-export const URL_MARKER_CURRENT = 'img/pin-active.svg';
-
-export const MAX_REVIEWS_ON_PAGE = 10;
-
-export const MAX_IMAGES_ON_PAGE = 6;
-
 export const DEFAULT_CITY = 'Paris';
 
-export const TIMEOUT_SHOW_ERROR = 2000;
+export enum MarkerUrl {
+  DEFAULT = 'img/pin.svg',
+  CURRENT = 'img/pin-active.svg'
+}
 
-export const REVIEW_MIN_LENGTH = 50;
+export enum PageSettings {
+  MAX_REVIEWS_AMOUNT = 10,
+  MAX_IMAGES_AMOUNT = 6,
+  NEARBY_CARDS_AMOUNT = 3
+}
 
-export const REVIEW_MAX_LENGTH = 300;
+export enum ReviewLenght {
+  MIN = 50,
+  MAX = 300
+}
 
-export const NEARBY_CARDS_AMOUNT = 300;
+export enum NameSpace {
+  Data = 'DATA',
+  UseCase = 'USECASE',
+  User = 'USER',
+}

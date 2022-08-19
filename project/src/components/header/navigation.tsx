@@ -3,11 +3,12 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { logoutAction } from '../../store/api-actions';
+import { getAuthorizationStatus, getUserEmail } from '../../store/user-process/selectors';
 
 export default function Navigation(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isUserAuth = authorizationStatus === AuthorizationStatus.Auth;
-  const userEmail = useAppSelector((state) => state.userEmail);
+  const userEmail = useAppSelector(getUserEmail);
   const dispatch = useAppDispatch();
 
 

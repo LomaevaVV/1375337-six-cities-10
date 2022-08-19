@@ -1,5 +1,4 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
-import { changeCity, setFocusedCardId } from '../../store/action';
 import Header from '../../components/header/header';
 import CardsList from '../../components/cards-list/cards-list';
 import Map from '../../components/map/map';
@@ -9,17 +8,20 @@ import LoadingScreen from '../../components/loader/loader';
 import Navigation from '../../components/header/navigation';
 import { CardClassName, mapClassName, CitiesList } from '../../const';
 import { getSortedCards } from '../../utils';
+import { getLoadedDataStatus, getOffers } from '../../store/data-process/selectors';
+import { getCity, getFocusedCardId, getSortType } from '../../store/usecase-process/selectors';
+import { changeCity, setFocusedCardId } from '../../store/usecase-process/usecase-process';
 
 export default function MainPage(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
-  const currentCityName = useAppSelector((state) => state.city);
-  const selectedOfferId = useAppSelector((state) => state.selectedOfferId);
-  const selectedSortType = useAppSelector((state) => state.sortType);
+  const offers = useAppSelector(getOffers);
+  const currentCityName = useAppSelector(getCity);
+  const selectedOfferId = useAppSelector(getFocusedCardId);
+  const selectedSortType = useAppSelector(getSortType);
   const dispatch = useAppDispatch();
 
-  const isDataLoaded = useAppSelector((state) => state.isDataLoaded);
+  const isDataLoaded = useAppSelector(getLoadedDataStatus);
 
-  if (isDataLoaded) {
+  if (!isDataLoaded) {
     return (
       <LoadingScreen />
     );
