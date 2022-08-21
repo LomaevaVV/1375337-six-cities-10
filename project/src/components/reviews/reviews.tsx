@@ -4,7 +4,7 @@ import { PageSettings, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks/index';
 import { Review } from '../../types/review';
 import dayjs from 'dayjs';
-import { getReviews } from '../../store/data-process/selectors';
+import { getReviews } from '../../store/data-reviews/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 const dateCompare = (eventA: Review, eventB: Review) => dayjs(eventB.date).diff(eventA.date, 'minute');

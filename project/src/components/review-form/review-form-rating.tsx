@@ -5,9 +5,10 @@ type FormRatingProps = {
   value: string;
   title: string;
   onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+  isDisabled: boolean
 };
 
-export default function ReviewFormRating({currentRating, value, title, onChange}: FormRatingProps): JSX.Element {
+export default function ReviewFormRating({currentRating, value, title, onChange, isDisabled}: FormRatingProps): JSX.Element {
   return (
     <React.Fragment>
       <input
@@ -18,6 +19,7 @@ export default function ReviewFormRating({currentRating, value, title, onChange}
         type="radio"
         onChange={onChange}
         checked={currentRating === value}
+        disabled={isDisabled}
       />
       <label
         htmlFor={`${value}-stars`}

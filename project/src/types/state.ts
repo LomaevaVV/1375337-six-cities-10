@@ -5,18 +5,29 @@ import { Reviews } from '../types/review';
 
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus,
-  userEmail: string
+  userEmail: string | undefined
 };
 
-export type DataProcess = {
+export type DataOffers = {
   offers: Offers;
-  offer?: Offer;
-  nearbyOffers: Offers;
-  reviews: Reviews;
-  isDataLoaded: boolean;
+  offersFetchStatus: string
 };
 
-export type UseCaseProcess = {
+export type DataReviews = {
+  reviews: Reviews;
+  reviewPostStatus: string
+};
+
+export type DataNearbyOffers = {
+  nearbyOffers: Offers
+};
+
+export type DataOffer = {
+  offer?: Offer;
+  offerFetchStatus: string
+};
+
+export type AppProcess = {
   city: string
   selectedOfferId: number | undefined
   sortType: string

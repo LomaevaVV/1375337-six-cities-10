@@ -1,15 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace, DEFAULT_CITY, OffersSortTypes } from '../../const';
-import { UseCaseProcess } from '../../types/state';
+import { AppProcess } from '../../types/state';
 
-const initialState: UseCaseProcess = {
+const initialState: AppProcess = {
   city: DEFAULT_CITY,
   sortType: OffersSortTypes.Popular,
   selectedOfferId: undefined
 };
 
-export const useCaseProcess = createSlice({
-  name: NameSpace.UseCase,
+export const appProcess = createSlice({
+  name: NameSpace.App,
   initialState,
   reducers: {
     changeCity: (state, action) => {
@@ -24,4 +24,4 @@ export const useCaseProcess = createSlice({
   },
 });
 
-export const {changeCity, setFocusedCardId, setSortType} = useCaseProcess.actions;
+export const {changeCity, setFocusedCardId, setSortType} = appProcess.actions;

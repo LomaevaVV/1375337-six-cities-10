@@ -4,7 +4,8 @@ export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Room = '/hotels/:id'
+  Room = '/hotels/:id',
+  Error = '/error'
 }
 
 export const APIRoute = {
@@ -20,6 +21,13 @@ export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN'
+}
+
+export const enum FetchStatus {
+  Idle = 'IDLE',
+  Loading = 'LOADING',
+  Succecc = 'SUCCESS',
+  Rejected = 'REJECTED',
 }
 
 export enum CardClassName {
@@ -114,7 +122,11 @@ export enum ReviewLenght {
 }
 
 export enum NameSpace {
+  DataOffers = 'OFFERS',
+  DataOffer = 'OFFER',
+  DataReviews = 'REVIEWS',
+  DataNearbyOffers = 'NEARBY_OFFERS',
   Data = 'DATA',
-  UseCase = 'USECASE',
+  App = 'APP',
   User = 'USER',
 }

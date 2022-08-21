@@ -1,7 +1,7 @@
 import MoonLoader from 'react-spinners/MoonLoader';
 import styles from './loader.module.css';
 
-export default function LoadingScreen(): JSX.Element {
+export default function Loader(): JSX.Element {
   return (
     <MoonLoader
       className={styles.page_loader}

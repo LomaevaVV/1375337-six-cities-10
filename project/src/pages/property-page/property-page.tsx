@@ -6,14 +6,16 @@ import CardsList from '../../components/cards-list/cards-list';
 import FavoriteButton from '../../components/favorite-button/favorite-button';
 import Map from '../../components/map/map';
 import OfferGallery from '../../components/offer-gallery/offer-gallery';
-import {CardClassName, FavoriteBtnComponent, mapClassName} from '../../const';
+import {CardClassName, FavoriteBtnComponent, mapClassName, FetchStatus} from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks/index';
 import {formatRatingToStars, ucFirstLetter} from '../../utils';
 import Navigation from '../../components/header/navigation';
 import Loader from '../../components/loader/loader';
 import { fetchOfferAction, fetchNearbyOffersAction, fetchReviewsAction } from '../../store/api-actions';
 import Reviews from '../../components/reviews/reviews';
-import { getLoadedDataStatus, getNearbyOffers, getOffer } from '../../store/data-process/selectors';
+import { getOfferFetchStatus } from '../../store/data-offer/selectors';
+import { getOffer } from '../../store/data-offer/selectors';
+import { getNearbyOffers } from '../../store/data-nearby-offers/selectors';
 import { Offer, Offers } from '../../types/offer';
 
 function PropertyStatus (): JSX.Element {
@@ -44,15 +46,16 @@ export default function PropertyPage(): JSX.Element {
 
   const offer = useAppSelector(getOffer) as Offer;
   const nearbyOffers = useAppSelector(getNearbyOffers) as Offers;
-  const isDataLoaded = useAppSelector(getLoadedDataStatus);
+  const offerFetchStatus = useAppSelector(getOfferFetchStatus);
 
-  if (!isDataLoaded || !offer) {
-    return (
-      <Loader />
-    );
+  if (
+    offerFetchStatus === FetchStatus.Idle ||
+    offerFetchStatus === FetchStatus.Loading
+  ) {
+    return <Loader />;
   }
 
-  if (!offer) {
+  if (!offer || offerFetchStatus === FetchStatus.Rejected) {
     return (<NotFoundPage />);
   }
 

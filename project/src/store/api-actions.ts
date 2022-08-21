@@ -21,17 +21,17 @@ export const fetchOffersAction = createAsyncThunk<Offers, undefined, {
   extra: AxiosInstance
 }>(
   'data/fetchOffers',
-  async (_arg, {extra: api}) => {
+  async (_arg, {dispatch, extra: api}) => {
     try {
       const {data} = await api.get<Offers>(APIRoute.Offers);
 
       return data;
-    } catch {
+    } catch(e) {
       toast.error('Offers loading error', {
         position: toast.POSITION.TOP_CENTER,
       });
 
-      throw new Error('Offers loading error');
+      throw e;
     }
   });
 
@@ -47,11 +47,10 @@ export const checkAuthAction = createAsyncThunk<string, undefined, {
 
       return email;
     } catch {
-      toast.warn('Unable to check authorization status', {
+
+      toast.warn('You are not authorized or Unable to check authorization status', {
         position: toast.POSITION.TOP_CENTER,
       });
-
-      return '';
     }
   },
 );
@@ -69,12 +68,12 @@ export const loginAction = createAsyncThunk<string, AuthData, {
       dispatch(redirectToRoute(AppRoute.Main));
 
       return email;
-    } catch {
+    } catch(e) {
       toast.error('Unable to login', {
         position: toast.POSITION.TOP_CENTER,
       });
 
-      throw new Error('Unable to login');
+      throw e;
     }
   },
 );
@@ -103,16 +102,15 @@ export const fetchOfferAction = createAsyncThunk<Offer, number, {
   extra: AxiosInstance
 }>(
   'data/fetchOffer',
-  async (offerId, {extra: api}) => {
+  async (offerId, {dispatch, extra: api}) => {
     try {
       const {data} = await api.get<Offer>(generatePath(APIRoute.Offer, {id: String(offerId)}));
       return data;
-    } catch {
+    } catch(e) {
       toast.error('Offer details loading error', {
         position: toast.POSITION.TOP_CENTER,
       });
-
-      throw new Error('Offer details loading error');
+      throw e;
     }
   });
 
@@ -127,12 +125,12 @@ export const fetchReviewsAction = createAsyncThunk<Reviews, number, {
       const {data} = await api.get<Reviews>(generatePath(APIRoute.Reviews, {id: String(offerId)}));
 
       return data;
-    } catch {
+    } catch(e) {
       toast.error('Reviews loading error', {
         position: toast.POSITION.TOP_CENTER,
       });
 
-      return [];
+      throw e;
     }
   });
 
@@ -147,12 +145,12 @@ export const fetchNearbyOffersAction = createAsyncThunk<Offers, number, {
       const {data} = await api.get<Offers>(generatePath(APIRoute.NearbyOffers, {id: String(offerId)}));
 
       return data;
-    } catch {
+    } catch(e) {
       toast.error('Nearby offers loading error', {
         position: toast.POSITION.TOP_CENTER,
       });
 
-      return [];
+      throw e;
     }
   });
 
@@ -171,12 +169,12 @@ export const postReviewAction = createAsyncThunk<Reviews, ReviewComment, {
 
       resetData();
       return data;
-    } catch {
+    } catch(e) {
       toast.error('Unable to to post a review', {
         position: toast.POSITION.TOP_CENTER,
       });
 
-      throw new Error('Unable to to post a review');
+      throw e;
     }
   },
 );

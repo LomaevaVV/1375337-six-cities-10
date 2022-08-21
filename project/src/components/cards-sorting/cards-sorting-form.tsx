@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import CardsSortingList from './cards-sorting-list';
 import { useAppSelector, useAppDispatch } from '../../hooks/index';
-import { getSortType } from '../../store/usecase-process/selectors';
-import { setSortType } from '../../store/usecase-process/usecase-process';
+import { getSortType } from '../../store/app-process/selectors';
+import { setSortType } from '../../store/app-process/app-process';
 
 
 export default function CardsSortingForm(): JSX.Element {
