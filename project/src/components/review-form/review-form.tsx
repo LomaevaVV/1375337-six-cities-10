@@ -1,8 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import ReviewFormRating from './review-form-rating';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postReviewAction } from '../../store/api-actions';
-import { REVIEW_MAX_LENGTH, REVIEW_MIN_LENGTH } from '../../const';
+import { ReviewLenght, FetchStatus } from '../../const';
+import { getReviewPostStatus } from '../../store/data-reviews/selectors';
 
 const RatingStarsTitles: {
   [key: number]: string
@@ -25,6 +26,7 @@ export default function ReviewForm({OfferId}: ReviewFormProps): JSX.Element {
   });
 
   const dispatch = useAppDispatch();
+  const reviewPostStatus = useAppSelector(getReviewPostStatus);
 
   const resetFormData = () => {
     setReviewData({...reviewData, comment: '', rating: '0'});
@@ -40,9 +42,11 @@ export default function ReviewForm({OfferId}: ReviewFormProps): JSX.Element {
     dispatch(postReviewAction(reviewComment));
   };
 
+  const isPostSubmiting = reviewPostStatus === FetchStatus.Loading;
+
   const isDisabled = reviewData.rating === '0'
-  || reviewData.comment.length <= REVIEW_MIN_LENGTH
-  || reviewData.comment.length >= REVIEW_MAX_LENGTH;
+  || reviewData.comment.length <= ReviewLenght.MIN
+  || reviewData.comment.length >= ReviewLenght.MAX;
 
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     evt.preventDefault();
@@ -65,6 +69,7 @@ export default function ReviewForm({OfferId}: ReviewFormProps): JSX.Element {
             title={title}
             currentRating={reviewData.rating}
             onChange={handleInputChange}
+            isDisabled={isPostSubmiting}
           />
         ))}
       </div>
@@ -83,9 +88,9 @@ export default function ReviewForm({OfferId}: ReviewFormProps): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isDisabled}
+          disabled={isDisabled || isPostSubmiting}
         >
-          Submit
+          {isPostSubmiting ? 'Submiting' : 'Submit'}
         </button>
       </div>
     </form>

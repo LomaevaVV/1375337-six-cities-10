@@ -1,9 +1,11 @@
 import ReviewCard from '../review-card/review-card';
 import ReviewForm from '../review-form/review-form';
-import { MAX_REVIEWS_ON_PAGE, AuthorizationStatus } from '../../const';
+import { PageSettings, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks/index';
 import { Review } from '../../types/review';
 import dayjs from 'dayjs';
+import { getReviews } from '../../store/data-reviews/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 const dateCompare = (eventA: Review, eventB: Review) => dayjs(eventB.date).diff(eventA.date, 'minute');
 const getSortedReviews = (reviews: Review[]) => [...reviews].sort(dateCompare);
@@ -13,9 +15,9 @@ type ReviewsProps = {
 }
 
 export default function Reviews({OfferId}: ReviewsProps): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  const reviews = useAppSelector((state) => state.reviews);
+  const reviews = useAppSelector(getReviews);
 
   const sortedReviews = getSortedReviews(reviews);
 
@@ -28,7 +30,7 @@ export default function Reviews({OfferId}: ReviewsProps): JSX.Element {
         </span>
       </h2>
       <ul className="reviews__list">
-        {sortedReviews.slice(0, MAX_REVIEWS_ON_PAGE)
+        {sortedReviews.slice(0, PageSettings.MAX_REVIEWS_AMOUNT)
           .map((item) => <ReviewCard key={item.id} review={item} />)}
       </ul>
       {authorizationStatus === AuthorizationStatus.Auth && (

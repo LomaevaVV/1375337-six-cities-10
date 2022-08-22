@@ -2,17 +2,17 @@ import {useRef, useEffect} from 'react';
 import leaflet from 'leaflet';
 import useMap from '../../hooks/useMap';
 import {OfferCity, Offers} from '../../types/offer';
-import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
+import {MarkerUrl} from '../../const';
 import 'leaflet/dist/leaflet.css';
 
 const defaultCustomIcon = leaflet.icon({
-  iconUrl: URL_MARKER_DEFAULT,
+  iconUrl: MarkerUrl.DEFAULT,
   iconSize: [27, 39],
   iconAnchor: [13.5, 39]
 });
 
 const currentCustomIcon = leaflet.icon({
-  iconUrl: URL_MARKER_CURRENT,
+  iconUrl: MarkerUrl.CURRENT,
   iconSize: [27, 39],
   iconAnchor: [13.5, 39]
 });

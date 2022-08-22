@@ -1,4 +1,4 @@
-import {MAX_IMAGES_ON_PAGE} from '../../const';
+import {PageSettings} from '../../const';
 
 type OfferGalleryProps = {
   images: string[];
@@ -9,7 +9,7 @@ export default function OfferGallery({images, type}: OfferGalleryProps): JSX.Ele
   return (
     <div className="property__gallery">
       {
-        images.slice(0, MAX_IMAGES_ON_PAGE)
+        images.slice(0, PageSettings.MAX_IMAGES_AMOUNT)
           .map((img) => (
             <div key={img} className="property__image-wrapper">
               <img className="property__image" src={img} alt={type} />

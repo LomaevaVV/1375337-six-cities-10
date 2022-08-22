@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import CardsSortingList from './cards-sorting-list';
-import {useAppSelector, useAppDispatch} from '../../hooks/index';
-import { setSortType } from '../../store/action';
+import { useAppSelector, useAppDispatch } from '../../hooks/index';
+import { getSortType } from '../../store/app-process/selectors';
+import { setSortType } from '../../store/app-process/app-process';
+
 
 export default function CardsSortingForm(): JSX.Element {
   const [isSortingOpened, setSortingOpenedMarker] = useState(false);
   const dispatch = useAppDispatch();
 
-  const selectedSortType = useAppSelector((state) => state.sortType);
+  const selectedSortType = useAppSelector(getSortType);
 
   const handleSelectSortingClick = () => {
     setSortingOpenedMarker(!isSortingOpened);
