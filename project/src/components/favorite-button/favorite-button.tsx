@@ -44,7 +44,6 @@ export default function FavoriteButton({isFavorite, pageType, offer}: FavoriteBu
         status: isFavorite ? 0 : 1
       };
       dispatch(postFavoriteStatusAction(offerStatus));
-      window.console.log(evt);
     } else {
       toast.warn('Please login to to work with favorites', {
         position: toast.POSITION.TOP_CENTER,

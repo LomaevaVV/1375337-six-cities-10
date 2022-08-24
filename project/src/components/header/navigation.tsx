@@ -14,7 +14,6 @@ export default function Navigation(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isUserAuth = authorizationStatus === AuthorizationStatus.Auth;
   const userEmail = useAppSelector(getUserEmail);
-  window.console.log(useAppSelector(getFavorites));
 
   function UsersInfo (): JSX.Element {
     return (
