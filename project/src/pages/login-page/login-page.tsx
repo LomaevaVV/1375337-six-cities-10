@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import LoginForm from './login-form';
+import LoginForm from '../../components/login-form/login-form';
 import { AppRoute, CitiesList } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import Header from '../../components/header/header';

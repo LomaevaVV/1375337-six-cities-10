@@ -32,7 +32,17 @@ export type Offer = {
   price: number;
   rating: number;
   title: string;
-  type: string;
+  type: string
 };
+
+export type OfferFavoriteStatus = {
+  offerId: number;
+  status: number
+}
+
+export type FavoritesOffers = {
+  city: string;
+  offers: Offers | [];
+}
 
 export type Offers = Offer[];

@@ -8,7 +8,7 @@ const initialState: DataOffer = {
 };
 
 export const dataOffer = createSlice({
-  name: NameSpace.Data,
+  name: NameSpace.DataOffer,
   initialState,
   reducers: {},
   extraReducers(builder) {

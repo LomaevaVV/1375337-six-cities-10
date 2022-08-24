@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { generatePath } from 'react-router';
 import { AxiosInstance } from 'axios';
 import { APIRoute, AppRoute } from '../const';
-import { Offers, Offer } from '../types/offer';
+import { Offers, Offer, OfferFavoriteStatus } from '../types/offer';
 import { Reviews } from '../types/review';
 import { AppDispatch, State } from '../types/state';
 import { AuthData } from '../types/auth-data';
@@ -159,7 +159,7 @@ export const postReviewAction = createAsyncThunk<Reviews, ReviewComment, {
   state: State,
   extra: AxiosInstance
 }>(
-  'data/post reviewComment',
+  'data/post ReviewComment',
   async ({offerId, comment, rating, resetData}, {extra: api}) => {
     try {
       const {data} = await api.post<Reviews>(
@@ -168,6 +168,54 @@ export const postReviewAction = createAsyncThunk<Reviews, ReviewComment, {
       );
 
       resetData();
+      return data;
+    } catch(e) {
+      toast.error('Unable to to post a review', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+
+      throw e;
+    }
+  },
+);
+
+export const fetchFavoritesAction = createAsyncThunk<Offers, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchFavorites',
+  async (_arg, {extra: api}) => {
+    try {
+      const {data} = await api.get<Offers>(APIRoute.Favorites);
+
+      return data;
+    } catch(e) {
+      toast.error('Favorites loading error', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+
+      throw e;
+    }
+  });
+
+export const postFavoriteStatusAction = createAsyncThunk<Offer, OfferFavoriteStatus, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/post FavoriteStatus',
+  async ({offerId, status}, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.post<Offer>(
+        generatePath(APIRoute.FavoriteStatus, {id: String(offerId), status: String(status)}),
+        {}
+      );
+
+      dispatch(fetchOfferAction(offerId));
+      dispatch(fetchOffersAction());
+      dispatch(fetchFavoritesAction());
+
       return data;
     } catch(e) {
       toast.error('Unable to to post a review', {

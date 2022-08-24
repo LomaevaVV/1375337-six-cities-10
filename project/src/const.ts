@@ -14,7 +14,9 @@ export const APIRoute = {
   Logout: '/logout',
   Reviews: '/comments/:id',
   NearbyOffers: '/hotels/:id/nearby',
-  Offer: '/hotels/:id'
+  Offer: '/hotels/:id',
+  Favorites: 'favorite',
+  FavoriteStatus: 'favorite/:id/:status'
 } as const;
 
 export enum AuthorizationStatus {
@@ -32,7 +34,8 @@ export const enum FetchStatus {
 
 export enum CardClassName {
   Cities = 'cities',
-  NearPlaces = 'near-places'
+  NearPlaces = 'near-places',
+  Favorites = 'favorites'
 }
 
 export enum mapClassName {
@@ -126,7 +129,7 @@ export enum NameSpace {
   DataOffer = 'OFFER',
   DataReviews = 'REVIEWS',
   DataNearbyOffers = 'NEARBY_OFFERS',
-  Data = 'DATA',
+  DataFavorites = 'FAVORITES',
   App = 'APP',
   User = 'USER',
 }

@@ -13,6 +13,12 @@ export type DataOffers = {
   offersFetchStatus: string
 };
 
+export type DataFavorites = {
+  offers: Offers | [];
+  favoritesFetchStatus: string;
+  favoritesPostStatus: string
+};
+
 export type DataReviews = {
   reviews: Reviews;
   reviewPostStatus: string

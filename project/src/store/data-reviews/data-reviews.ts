@@ -9,7 +9,7 @@ const initialState: DataReviews = {
 };
 
 export const dataReviews = createSlice({
-  name: NameSpace.Data,
+  name: NameSpace.DataReviews,
   initialState,
   reducers: {},
   extraReducers(builder) {
@@ -25,7 +25,6 @@ export const dataReviews = createSlice({
         state.reviewPostStatus = FetchStatus.Succecc;
       })
       .addCase(postReviewAction.rejected, (state) => {
-        state.reviews = [];
         state.reviewPostStatus = FetchStatus.Rejected;
       });
   }

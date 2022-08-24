@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import Header from '../../components/header/header';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import CardsList from '../../components/cards-list/cards-list';
@@ -16,7 +16,7 @@ import Reviews from '../../components/reviews/reviews';
 import { getOfferFetchStatus } from '../../store/data-offer/selectors';
 import { getOffer } from '../../store/data-offer/selectors';
 import { getNearbyOffers } from '../../store/data-nearby-offers/selectors';
-import { Offer, Offers } from '../../types/offer';
+import { Offer } from '../../types/offer';
 
 function PropertyStatus (): JSX.Element {
   return (
@@ -37,16 +37,20 @@ function HostProStatus (): JSX.Element {
 export default function PropertyPage(): JSX.Element {
   const {id} = useParams();
   const dispatch = useAppDispatch();
+  const isRenderedRef = useRef<boolean>(false);
 
   useEffect(() => {
-    dispatch(fetchOfferAction(Number(id)));
-    dispatch(fetchNearbyOffersAction(Number(id)));
-    dispatch(fetchReviewsAction(Number(id)));
+    if (!isRenderedRef.current) {
+      dispatch(fetchOfferAction(Number(id)));
+      dispatch(fetchNearbyOffersAction(Number(id)));
+      dispatch(fetchReviewsAction(Number(id)));
+      isRenderedRef.current = true;
+    }
   }, [dispatch, id]);
 
-  const offer = useAppSelector(getOffer) as Offer;
-  const nearbyOffers = useAppSelector(getNearbyOffers) as Offers;
   const offerFetchStatus = useAppSelector(getOfferFetchStatus);
+  const offer = useAppSelector(getOffer);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
 
   if (
     offerFetchStatus === FetchStatus.Idle ||
@@ -92,7 +96,11 @@ export default function PropertyPage(): JSX.Element {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <FavoriteButton isFavorite={isFavorite} pageType={FavoriteBtnComponent.PropertyPage} />
+                <FavoriteButton
+                  isFavorite={isFavorite}
+                  pageType={FavoriteBtnComponent.PropertyPage}
+                  offer={offer}
+                />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
@@ -156,7 +164,7 @@ export default function PropertyPage(): JSX.Element {
           </div>
           <Map
             mapClassName={mapClassName.Property}
-            city={offer.city}
+            cityName={offer.city.name}
             points={[...nearbyOffers, offer]}
             selectedPointId={offer.id}
           />

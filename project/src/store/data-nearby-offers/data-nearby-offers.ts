@@ -8,7 +8,7 @@ const initialState: DataNearbyOffers = {
 };
 
 export const dataNearbyOffers = createSlice({
-  name: NameSpace.Data,
+  name: NameSpace.DataNearbyOffers,
   initialState,
   reducers: {},
   extraReducers(builder) {
