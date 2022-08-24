@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import FavoritesEmpty from '../../components/favorites-list/favorites-empty';
 import FavoritesListItem from '../../components/favorites-list/favorites-list';
 import Header from '../../components/header/header';
 import Navigation from '../../components/header/navigation';
 import Loader from '../../components/loader/loader';
-import { FetchStatus } from '../../const';
+import { AppRoute, FetchStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { store } from '../../store';
 import { fetchFavoritesAction } from '../../store/api-actions';
@@ -58,9 +59,9 @@ export default function FavoritesPage(): JSX.Element {
         </div>
       </main>
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
+        <Link className="footer__logo-link" to={AppRoute.Main}>
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
-        </a>
+        </Link>
       </footer>
     </div>
   );
