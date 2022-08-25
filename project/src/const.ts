@@ -28,7 +28,7 @@ export enum AuthorizationStatus {
 export const enum FetchStatus {
   Idle = 'IDLE',
   Loading = 'LOADING',
-  Succecc = 'SUCCESS',
+  Success = 'SUCCESS',
   Rejected = 'REJECTED',
 }
 

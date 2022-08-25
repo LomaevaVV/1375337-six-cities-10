@@ -1,7 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
-import { fetchNearbyOffersAction } from '../api-actions';
-import { DataNearbyOffers } from '../../types/state';
+import { Offers } from '../../types/offer';
+import { fetchNearbyOffersAction, postFavoriteStatusAction } from '../api-actions';
+
+type DataNearbyOffers = {
+  nearbyOffers: Offers
+};
 
 const initialState: DataNearbyOffers = {
   nearbyOffers: []
@@ -15,6 +19,13 @@ export const dataNearbyOffers = createSlice({
     builder
       .addCase(fetchNearbyOffersAction.fulfilled, (state, action) => {
         state.nearbyOffers = action.payload;
+      })
+      .addCase(postFavoriteStatusAction.fulfilled, (state, action) => {
+        for (const offer of state.nearbyOffers) {
+          if (offer.id === action.payload.id) {
+            offer.isFavorite = action.payload.isFavorite;
+          }
+        }
       });
   }
 });

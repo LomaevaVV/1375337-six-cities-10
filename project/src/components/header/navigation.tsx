@@ -1,9 +1,8 @@
-import { AuthorizationStatus } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { logoutAction } from '../../store/api-actions';
-import { getAuthorizationStatus, getUserEmail } from '../../store/user-process/selectors';
+import { getIsUserAuth, getUserEmail } from '../../store/user-process/selectors';
 import { getFavorites } from '../../store/data-favorites/selectors';
 
 
@@ -11,8 +10,7 @@ export default function Navigation(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const favorites = useAppSelector(getFavorites);
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const isUserAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const isUserAuth = useAppSelector(getIsUserAuth);
   const userEmail = useAppSelector(getUserEmail);
 
   function UsersInfo (): JSX.Element {

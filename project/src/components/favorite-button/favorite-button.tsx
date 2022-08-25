@@ -1,8 +1,8 @@
-import {AuthorizationStatus, FavoriteBtnComponent} from '../../const';
+import { FavoriteBtnComponent } from '../../const';
 import cn from 'classnames';
 import { postFavoriteStatusAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getIsUserAuth } from '../../store/user-process/selectors';
 import { Offer } from '../../types/offer';
 import { toast } from 'react-toastify';
 
@@ -28,20 +28,23 @@ type FavoriteButtonProps = {
 export default function FavoriteButton({isFavorite, pageType, offer}: FavoriteButtonProps): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const IsUserAuth = useAppSelector(getIsUserAuth);
 
   const buttonSpec =
     pageType === FavoriteBtnComponent.PropertyPage
       ? favoriteButtonSpec.propertyPage
       : favoriteButtonSpec.card;
 
-  const buttonClassName = cn(`${buttonSpec.className}__bookmark-button button`, {'place-card__bookmark-button--active': isFavorite});
+  const buttonClassName = cn(
+    `${buttonSpec.className}__bookmark-button button`,
+    {'place-card__bookmark-button--active': isFavorite}
+  );
 
-  const handleFavoriteBtnClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
-    if(authorizationStatus === AuthorizationStatus.Auth) {
+  const handleFavoriteBtnClick = () => {
+    if(IsUserAuth) {
       const offerStatus = {
         offerId: offer.id,
-        status: isFavorite ? 0 : 1
+        status: Number(!isFavorite)
       };
       dispatch(postFavoriteStatusAction(offerStatus));
     } else {

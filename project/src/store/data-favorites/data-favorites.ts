@@ -1,10 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace, FetchStatus } from '../../const';
+import { Offers } from '../../types/offer';
 import { fetchFavoritesAction, postFavoriteStatusAction } from '../api-actions';
-import { DataFavorites } from '../../types/state';
+
+type DataFavorites = {
+  favorites: Offers;
+  favoritesFetchStatus: string;
+  favoritesPostStatus: string
+};
 
 const initialState: DataFavorites = {
-  offers: [],
+  favorites: [],
   favoritesFetchStatus: FetchStatus.Idle,
   favoritesPostStatus: FetchStatus.Idle
 };
@@ -19,8 +25,8 @@ export const dataFavorites = createSlice({
         state.favoritesFetchStatus = FetchStatus.Loading;
       })
       .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
-        state.offers = action.payload;
-        state.favoritesFetchStatus = FetchStatus.Succecc;
+        state.favorites = action.payload;
+        state.favoritesFetchStatus = FetchStatus.Success;
       })
       .addCase(fetchFavoritesAction.rejected, (state) => {
         state.favoritesFetchStatus = FetchStatus.Rejected;
@@ -29,7 +35,12 @@ export const dataFavorites = createSlice({
         state.favoritesPostStatus = FetchStatus.Loading;
       })
       .addCase(postFavoriteStatusAction.fulfilled, (state, action) => {
-        state.favoritesPostStatus = FetchStatus.Succecc;
+        state.favoritesPostStatus = FetchStatus.Success;
+        if (action.payload.isFavorite) {
+          state.favorites.push(action.payload);
+        } else {state.favorites = state.favorites.filter((offer) =>
+          offer.id !== action.payload.id
+        );}
       })
       .addCase(postFavoriteStatusAction.rejected, (state) => {
         state.favoritesPostStatus = FetchStatus.Rejected;

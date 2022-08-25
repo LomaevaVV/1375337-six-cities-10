@@ -21,7 +21,7 @@ export const fetchOffersAction = createAsyncThunk<Offers, undefined, {
   extra: AxiosInstance
 }>(
   'data/fetchOffers',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     try {
       const {data} = await api.get<Offers>(APIRoute.Offers);
 
@@ -84,7 +84,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance
 }>(
   'user/logout',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     try {
       await api.delete(APIRoute.Logout);
       dropToken();
@@ -102,7 +102,7 @@ export const fetchOfferAction = createAsyncThunk<Offer, number, {
   extra: AxiosInstance
 }>(
   'data/fetchOffer',
-  async (offerId, {dispatch, extra: api}) => {
+  async (offerId, {extra: api}) => {
     try {
       const {data} = await api.get<Offer>(generatePath(APIRoute.Offer, {id: String(offerId)}));
       return data;
@@ -140,7 +140,7 @@ export const fetchNearbyOffersAction = createAsyncThunk<Offers, number, {
   extra: AxiosInstance
 }>(
   'data/fetchNearbyOffers',
-  async (offerId, {dispatch, extra: api}) => {
+  async (offerId, {extra: api}) => {
     try {
       const {data} = await api.get<Offers>(generatePath(APIRoute.NearbyOffers, {id: String(offerId)}));
 
@@ -205,16 +205,12 @@ export const postFavoriteStatusAction = createAsyncThunk<Offer, OfferFavoriteSta
   extra: AxiosInstance
 }>(
   'data/post FavoriteStatus',
-  async ({offerId, status}, {dispatch, extra: api}) => {
+  async ({offerId, status}, {extra: api}) => {
     try {
       const {data} = await api.post<Offer>(
         generatePath(APIRoute.FavoriteStatus, {id: String(offerId), status: String(status)}),
         {}
       );
-
-      dispatch(fetchOfferAction(offerId));
-      dispatch(fetchOffersAction());
-      dispatch(fetchFavoritesAction());
 
       return data;
     } catch(e) {

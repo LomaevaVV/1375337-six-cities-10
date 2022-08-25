@@ -46,7 +46,7 @@ export default function MainPage(): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          { currentOffers.length === 0 && offersFetchStatus === FetchStatus.Succecc
+          { currentOffers.length === 0 && offersFetchStatus === FetchStatus.Success
             ? <CitiesPlacesEmpty cityName={currentCityName}/>
             :
             <CitiesPlaces

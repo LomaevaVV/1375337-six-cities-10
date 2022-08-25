@@ -44,7 +44,7 @@ export default function FavoritesPage(): JSX.Element {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            { favoritesOffers.length === 0 && favoritesFetchStatus === FetchStatus.Succecc
+            { favoritesOffers.length === 0 && favoritesFetchStatus === FetchStatus.Success
               ? <FavoritesEmpty />
               :
               <ul className="favorites__list">
