@@ -8,10 +8,12 @@ import PropertyPage from '../../pages/property-page/property-page';
 import { AppRoute } from '../../const';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import ScrollToTop from '../scroll-to-top/scroll-to-top';
 
 function App(): JSX.Element {
   return (
     <HistoryRouter history={browserHistory}>
+      <ScrollToTop />
       <Routes>
         <Route
           path={AppRoute.Main}
