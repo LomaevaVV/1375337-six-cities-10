@@ -6,7 +6,7 @@ import Navigation from '../../components/header/navigation';
 import { FetchStatus } from '../../const';
 import { getOffersFetchStatus, selectCurrentOffers } from '../../store/data-offers/selectors';
 import { getCity } from '../../store/app-process/selectors';
-import { changeCity } from '../../store/app-process/app-process';
+import { changeCity, setFocusedCardId } from '../../store/app-process/app-process';
 import CitiesPlaces from '../../components/cities-places/cities-places';
 import CitiesPlacesEmpty from '../../components/cities-places-empty/cities-places-empty';
 
@@ -17,6 +17,7 @@ export default function MainPage(): JSX.Element {
   const currentCityName = useAppSelector(getCity);
   const currentOffers = useAppSelector(selectCurrentOffers);
   const offersFetchStatus = useAppSelector(getOffersFetchStatus);
+  dispatch(setFocusedCardId(undefined));
 
   if (
     offersFetchStatus === FetchStatus.Idle ||

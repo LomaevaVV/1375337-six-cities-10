@@ -4,6 +4,7 @@ import { generatePath } from 'react-router';
 import { Offer } from '../../types/offer';
 import { formatRatingToStars, ucFirstLetter } from '../../utils';
 import FavoriteButton from '../favorite-button/favorite-button';
+import { memo } from 'react';
 
 type CardProps = {
   offer: Offer;
@@ -11,7 +12,7 @@ type CardProps = {
   onListItemHover?: (listItemId?: number) => void;
 }
 
-export default function Card ({offer, cardClassName, onListItemHover}: CardProps): JSX.Element {
+function Card ({offer, cardClassName, onListItemHover}: CardProps): JSX.Element {
 
   return (
     <article
@@ -59,3 +60,5 @@ export default function Card ({offer, cardClassName, onListItemHover}: CardProps
     </article>
   );
 }
+
+export default memo(Card);

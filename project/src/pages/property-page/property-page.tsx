@@ -166,7 +166,6 @@ export default function PropertyPage(): JSX.Element {
             mapClassName={mapClassName.Property}
             cityName={offer.city.name}
             points={[...nearbyOffers, offer]}
-            selectedPointId={offer.id}
           />
         </section>
         <div className="container">
