@@ -1,14 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace, FetchStatus } from '../../const';
-import { fetchOfferAction } from '../api-actions';
-import { DataOffer } from '../../types/state';
+import { Offer } from '../../types/offer';
+import { fetchOfferAction, postFavoriteStatusAction } from '../api-actions';
+
+type DataOffer = {
+  offer?: Offer;
+  offerFetchStatus: string
+};
 
 const initialState: DataOffer = {
   offerFetchStatus: FetchStatus.Idle
 };
 
 export const dataOffer = createSlice({
-  name: NameSpace.Data,
+  name: NameSpace.DataOffer,
   initialState,
   reducers: {},
   extraReducers(builder) {
@@ -18,10 +23,15 @@ export const dataOffer = createSlice({
       })
       .addCase(fetchOfferAction.fulfilled, (state, action) => {
         state.offer = action.payload;
-        state.offerFetchStatus = FetchStatus.Succecc;
+        state.offerFetchStatus = FetchStatus.Success;
       })
       .addCase(fetchOfferAction.rejected, (state) => {
         state.offerFetchStatus = FetchStatus.Rejected;
+      })
+      .addCase(postFavoriteStatusAction.fulfilled, (state, action) => {
+        if (state.offer?.id === action.payload.id) {
+          state.offer.isFavorite = action.payload.isFavorite;
+        }
       });
   }
 });

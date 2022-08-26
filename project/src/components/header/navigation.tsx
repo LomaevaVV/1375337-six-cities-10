@@ -1,25 +1,26 @@
-import { AuthorizationStatus } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { logoutAction } from '../../store/api-actions';
-import { getAuthorizationStatus, getUserEmail } from '../../store/user-process/selectors';
+import { getIsUserAuth, getUserEmail } from '../../store/user-process/selectors';
+import { getFavorites } from '../../store/data-favorites/selectors';
+
 
 export default function Navigation(): JSX.Element {
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const isUserAuth = authorizationStatus === AuthorizationStatus.Auth;
-  const userEmail = useAppSelector(getUserEmail);
   const dispatch = useAppDispatch();
 
+  const favorites = useAppSelector(getFavorites);
+  const isUserAuth = useAppSelector(getIsUserAuth);
+  const userEmail = useAppSelector(getUserEmail);
 
   function UsersInfo (): JSX.Element {
     return (
-      <a className="header__nav-link header__nav-link--profile" href="/#">
+      <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
         <div className="header__avatar-wrapper user__avatar-wrapper">
         </div>
         <span className="header__user-name user__name">{userEmail}</span>
-        <span className="header__favorite-count">3</span>
-      </a>
+        <span className="header__favorite-count">{favorites.length}</span>
+      </Link>
     );
   }
 

@@ -1,11 +1,11 @@
 import ReviewCard from '../review-card/review-card';
 import ReviewForm from '../review-form/review-form';
-import { PageSettings, AuthorizationStatus } from '../../const';
+import { PageSettings } from '../../const';
 import { useAppSelector } from '../../hooks/index';
 import { Review } from '../../types/review';
 import dayjs from 'dayjs';
 import { getReviews } from '../../store/data-reviews/selectors';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getIsUserAuth } from '../../store/user-process/selectors';
 
 const dateCompare = (eventA: Review, eventB: Review) => dayjs(eventB.date).diff(eventA.date, 'minute');
 const getSortedReviews = (reviews: Review[]) => [...reviews].sort(dateCompare);
@@ -15,7 +15,7 @@ type ReviewsProps = {
 }
 
 export default function Reviews({OfferId}: ReviewsProps): JSX.Element {
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isUserAuth = useAppSelector(getIsUserAuth);
 
   const reviews = useAppSelector(getReviews);
 
@@ -33,9 +33,7 @@ export default function Reviews({OfferId}: ReviewsProps): JSX.Element {
         {sortedReviews.slice(0, PageSettings.MAX_REVIEWS_AMOUNT)
           .map((item) => <ReviewCard key={item.id} review={item} />)}
       </ul>
-      {authorizationStatus === AuthorizationStatus.Auth && (
-        <ReviewForm OfferId={OfferId}/>
-      )}
+      {isUserAuth && <ReviewForm OfferId={OfferId}/>}
     </section>
   );
 }

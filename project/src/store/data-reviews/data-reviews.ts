@@ -1,7 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace, FetchStatus } from '../../const';
+import { Reviews } from '../../types/review';
 import { fetchReviewsAction, postReviewAction } from '../api-actions';
-import { DataReviews } from '../../types/state';
+
+export type DataReviews = {
+  reviews: Reviews;
+  reviewPostStatus: string
+};
 
 const initialState: DataReviews = {
   reviews: [],
@@ -9,7 +14,7 @@ const initialState: DataReviews = {
 };
 
 export const dataReviews = createSlice({
-  name: NameSpace.Data,
+  name: NameSpace.DataReviews,
   initialState,
   reducers: {},
   extraReducers(builder) {
@@ -22,10 +27,9 @@ export const dataReviews = createSlice({
       })
       .addCase(postReviewAction.fulfilled, (state, action) => {
         state.reviews = action.payload;
-        state.reviewPostStatus = FetchStatus.Succecc;
+        state.reviewPostStatus = FetchStatus.Success;
       })
       .addCase(postReviewAction.rejected, (state) => {
-        state.reviews = [];
         state.reviewPostStatus = FetchStatus.Rejected;
       });
   }

@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace, DEFAULT_CITY, OffersSortTypes } from '../../const';
-import { AppProcess } from '../../types/state';
+
+type AppProcess = {
+  city: string
+  selectedOfferId: number | undefined
+  sortType: string
+};
 
 const initialState: AppProcess = {
   city: DEFAULT_CITY,
