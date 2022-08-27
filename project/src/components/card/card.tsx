@@ -10,14 +10,16 @@ type CardProps = {
   offer: Offer;
   cardClassName: string;
   onListItemHover?: (listItemId?: number) => void;
+  onListItemClick?: () => void;
 }
 
-function Card ({offer, cardClassName, onListItemHover}: CardProps): JSX.Element {
+function Card ({offer, cardClassName, onListItemHover, onListItemClick}: CardProps): JSX.Element {
 
   return (
     <article
       onMouseOver={() => onListItemHover?.(offer.id)}
       onMouseLeave={() => onListItemHover?.()}
+      onClick={() => onListItemClick?.()}
       className={`${cardClassName}__card place-card`}
     >
       <div className={`place-card__mark ${!offer.isPremium && 'visually-hidden'}`}>

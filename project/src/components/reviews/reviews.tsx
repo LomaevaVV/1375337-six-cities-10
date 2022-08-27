@@ -11,10 +11,10 @@ const dateCompare = (eventA: Review, eventB: Review) => dayjs(eventB.date).diff(
 const getSortedReviews = (reviews: Review[]) => [...reviews].sort(dateCompare);
 
 type ReviewsProps = {
-  OfferId: number;
+  offerId: number;
 }
 
-export default function Reviews({OfferId}: ReviewsProps): JSX.Element {
+export default function Reviews({offerId}: ReviewsProps): JSX.Element {
   const isUserAuth = useAppSelector(getIsUserAuth);
 
   const reviews = useAppSelector(getReviews);
@@ -33,7 +33,7 @@ export default function Reviews({OfferId}: ReviewsProps): JSX.Element {
         {sortedReviews.slice(0, PageSettings.MAX_REVIEWS_AMOUNT)
           .map((item) => <ReviewCard key={item.id} review={item} />)}
       </ul>
-      {isUserAuth && <ReviewForm OfferId={OfferId}/>}
+      {isUserAuth && <ReviewForm offerId={offerId}/>}
     </section>
   );
 }

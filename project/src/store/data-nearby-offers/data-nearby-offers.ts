@@ -21,11 +21,11 @@ export const dataNearbyOffers = createSlice({
         state.nearbyOffers = action.payload;
       })
       .addCase(postFavoriteStatusAction.fulfilled, (state, action) => {
-        for (const offer of state.nearbyOffers) {
-          if (offer.id === action.payload.id) {
-            offer.isFavorite = action.payload.isFavorite;
-          }
-        }
+        state.nearbyOffers = state.nearbyOffers.map( (offer) => (
+          offer.id === action.payload.id
+            ? action.payload
+            : offer
+        ));
       });
   }
 });

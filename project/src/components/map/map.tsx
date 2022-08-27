@@ -4,8 +4,6 @@ import useMap from '../../hooks/useMap';
 import { Offers } from '../../types/offer';
 import { CitiesList, MarkerUrl } from '../../const';
 import 'leaflet/dist/leaflet.css';
-import { useAppSelector } from '../../hooks';
-import { getFocusedCardId } from '../../store/app-process/selectors';
 
 const defaultCustomIcon = leaflet.icon({
   iconUrl: MarkerUrl.DEFAULT,
@@ -24,13 +22,13 @@ type MapProps = {
   mapClassName: string;
   cityName: string;
   points: Offers;
+  selectedPointId: number | undefined
 };
 
-export default function Map({mapClassName, cityName, points}: MapProps): JSX.Element {
+export default function Map({mapClassName, cityName, points, selectedPointId}: MapProps): JSX.Element {
   const city = CitiesList.find((value) => value.name === cityName) || CitiesList[0];
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
-  const selectedPointId = useAppSelector(getFocusedCardId);
 
   useEffect(() => {
     if (map) {

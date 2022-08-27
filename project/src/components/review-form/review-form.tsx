@@ -1,25 +1,23 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import ReviewFormRating from './review-form-rating';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postReviewAction } from '../../store/api-actions';
 import { ReviewLenght, FetchStatus } from '../../const';
 import { getReviewPostStatus } from '../../store/data-reviews/selectors';
 
-const RatingStarsTitles: {
-  [key: number]: string
-} = {
-  1: 'terribly',
-  2: 'badly',
-  3: 'not bad',
-  4: 'good',
-  5: 'perfect'
-};
+const RatingStarsTitles = [
+  {title: 'perfect', value:'5'},
+  {title: 'good', value: '4'},
+  {title: 'not bad', value: '3'},
+  {title: 'badly', value: '2'},
+  {title: 'terribly', value: '1'}
+];
 
 type ReviewFormProps = {
-  OfferId: number;
+  offerId: number;
 }
 
-export default function ReviewForm({OfferId}: ReviewFormProps): JSX.Element {
+export default function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
   const [reviewData, setReviewData] = useState({
     comment: '',
     rating: '0'
@@ -36,7 +34,7 @@ export default function ReviewForm({OfferId}: ReviewFormProps): JSX.Element {
     evt.preventDefault();
     const reviewComment = {
       ...reviewData,
-      offerId: OfferId,
+      offerId: offerId,
       resetData: resetFormData
     };
     dispatch(postReviewAction(reviewComment));
@@ -48,23 +46,23 @@ export default function ReviewForm({OfferId}: ReviewFormProps): JSX.Element {
   || reviewData.comment.length <= ReviewLenght.MIN
   || reviewData.comment.length >= ReviewLenght.MAX;
 
-  const handleInputChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = useCallback((evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     evt.preventDefault();
     const {name, value} = evt.target;
 
-    setReviewData({
+    setReviewData(() => ({
       ...reviewData,
       [name]: value
-    });
-  };
+    }));
+  }, [reviewData]);
 
   return (
     <form onSubmit={handleFormSubmit} className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {Object.entries(RatingStarsTitles).map(([value, title]) => (
+        {RatingStarsTitles.map(({title, value}) => (
           <ReviewFormRating
-            key={title}
+            key={value}
             value={value}
             title={title}
             currentRating={reviewData.rating}

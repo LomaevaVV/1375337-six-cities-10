@@ -31,11 +31,11 @@ export const dataOffers = createSlice({
         state.offersFetchStatus = FetchStatus.Rejected;
       })
       .addCase(postFavoriteStatusAction.fulfilled, (state, action) => {
-        for (const offer of state.offers) {
-          if (offer.id === action.payload.id) {
-            offer.isFavorite = action.payload.isFavorite;
-          }
-        }
+        state.offers = state.offers.map( (offer) => (
+          offer.id === action.payload.id
+            ? action.payload
+            : offer
+        ));
       });
   }
 });
