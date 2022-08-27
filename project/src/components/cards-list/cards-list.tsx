@@ -24,6 +24,12 @@ export default function CardsList({offers, cardClassName}: CardsListProps): JSX.
     }
   }, [cardClassName, dispatch]);
 
+  const handleListItemClick = useCallback(() => {
+    if (cardClassName === CardClassName.Cities) {
+      dispatch(setFocusedCardId(undefined));
+    }
+  }, [cardClassName, dispatch]);
+
   return (
     <div className={`${listClassName} places__list`}>
       {offers.map((item) => (
@@ -32,6 +38,7 @@ export default function CardsList({offers, cardClassName}: CardsListProps): JSX.
           offer={item}
           cardClassName={cardClassName}
           onListItemHover={onListItemHover}
+          onListItemClick={handleListItemClick}
         />
       ))}
     </div>

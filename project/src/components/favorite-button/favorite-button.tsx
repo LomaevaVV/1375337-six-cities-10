@@ -1,10 +1,11 @@
-import { FavoriteBtnComponent } from '../../const';
+import { AppRoute, FavoriteBtnComponent } from '../../const';
 import cn from 'classnames';
 import { postFavoriteStatusAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getIsUserAuth } from '../../store/user-process/selectors';
 import { Offer } from '../../types/offer';
 import { toast } from 'react-toastify';
+import { redirectToRoute } from '../../store/action';
 
 const favoriteButtonSpec = {
   propertyPage: {
@@ -48,6 +49,7 @@ export default function FavoriteButton({isFavorite, pageType, offer}: FavoriteBu
       };
       dispatch(postFavoriteStatusAction(offerStatus));
     } else {
+      dispatch(redirectToRoute(AppRoute.Login));
       toast.warn('Please login to to work with favorites', {
         position: toast.POSITION.TOP_CENTER,
       });

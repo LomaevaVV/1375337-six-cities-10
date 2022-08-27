@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 type FormRatingProps = {
   currentRating: string;
@@ -8,7 +8,7 @@ type FormRatingProps = {
   isDisabled: boolean
 };
 
-export default function ReviewFormRating({currentRating, value, title, onChange, isDisabled}: FormRatingProps): JSX.Element {
+function ReviewFormRating({currentRating, value, title, onChange, isDisabled}: FormRatingProps): JSX.Element {
   return (
     <React.Fragment>
       <input
@@ -33,3 +33,5 @@ export default function ReviewFormRating({currentRating, value, title, onChange,
     </React.Fragment>
   );
 }
+
+export default memo(ReviewFormRating);

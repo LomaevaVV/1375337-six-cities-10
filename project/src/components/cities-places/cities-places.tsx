@@ -4,6 +4,8 @@ import CardsList from '../../components/cards-list/cards-list';
 import Map from '../../components/map/map';
 import CardsSorting from '../../components/cards-sorting/cards-sorting-form';
 import { Offers } from '../../types/offer';
+import { getFocusedCardId } from '../../store/app-process/selectors';
+import { useAppSelector } from '../../hooks';
 
 type CitiesPlacesProps = {
   offersFetchStatus: string;
@@ -12,6 +14,8 @@ type CitiesPlacesProps = {
 };
 
 export default function CitiesPlaces({offersFetchStatus, currentOffers, currentCityName}: CitiesPlacesProps): JSX.Element {
+  const focusedCardId = useAppSelector(getFocusedCardId);
+
   return (
     <div className="cities__places-container container">
       {offersFetchStatus === FetchStatus.Rejected
@@ -24,7 +28,7 @@ export default function CitiesPlaces({offersFetchStatus, currentOffers, currentC
           <CardsList offers={currentOffers} cardClassName={CardClassName.Cities} />
         </section>}
       <div className="cities__right-section">
-        <Map mapClassName={mapClassName.Cities} cityName={currentCityName} points={currentOffers} />
+        <Map mapClassName={mapClassName.Cities} cityName={currentCityName} points={currentOffers} selectedPointId={focusedCardId}/>
       </div>
     </div>
   );

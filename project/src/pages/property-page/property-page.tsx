@@ -6,7 +6,7 @@ import CardsList from '../../components/cards-list/cards-list';
 import FavoriteButton from '../../components/favorite-button/favorite-button';
 import Map from '../../components/map/map';
 import OfferGallery from '../../components/offer-gallery/offer-gallery';
-import {CardClassName, FavoriteBtnComponent, mapClassName, FetchStatus} from '../../const';
+import {CardClassName, FavoriteBtnComponent, mapClassName, FetchStatus, PageSettings} from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks/index';
 import {formatRatingToStars, ucFirstLetter} from '../../utils';
 import Navigation from '../../components/header/navigation';
@@ -50,7 +50,7 @@ export default function PropertyPage(): JSX.Element {
 
   const offerFetchStatus = useAppSelector(getOfferFetchStatus);
   const offer = useAppSelector(getOffer);
-  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const nearbyOffers = useAppSelector(getNearbyOffers).slice(0, PageSettings.NEARBY_CARDS_AMOUNT);
 
   if (
     offerFetchStatus === FetchStatus.Idle ||
@@ -159,13 +159,14 @@ export default function PropertyPage(): JSX.Element {
                   </p>
                 </div>
               </div>
-              <Reviews OfferId={Number(id)} />
+              <Reviews offerId={Number(id)} />
             </div>
           </div>
           <Map
             mapClassName={mapClassName.Property}
             cityName={offer.city.name}
             points={[...nearbyOffers, offer]}
+            selectedPointId={Number(id)}
           />
         </section>
         <div className="container">
