@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
 import Header from '../../components/header/header';
-import CitiesFilterList from '../../components/cards-city-filter/city-filter';
+import CitiesFilterList from '../../components/cities-filter-list/cities-filter-list';
 import Loader from '../../components/loader/loader';
 import Navigation from '../../components/header/navigation';
 import { FetchStatus } from '../../const';

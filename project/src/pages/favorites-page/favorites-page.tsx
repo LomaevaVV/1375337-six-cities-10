@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import FavoritesEmpty from '../../components/favorites-list/favorites-empty';
-import FavoritesListItem from '../../components/favorites-list/favorites-list';
+import FavoritesListItem from '../../components/favorites-list/favorites-list-item';
 import Header from '../../components/header/header';
 import Navigation from '../../components/header/navigation';
 import Loader from '../../components/loader/loader';
